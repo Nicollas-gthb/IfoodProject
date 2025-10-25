@@ -19,6 +19,11 @@ public class ClienteView {
         this.pedido = new PedidoView(this);
     }
 
+    //setter para o vaiVoltar
+    public void setVaiVoltar(boolean valor){
+        vaiVoltar = valor;
+    }
+
     //Conferir primeiro acesso
     public boolean PrimeiroAcesso()
     {
@@ -29,7 +34,7 @@ public class ClienteView {
     public void CadastrarConta()
     {
         naoCadastrou = false;
-        System.out.println("\nConta nova");
+        System.out.println("\n= Conta nova");
 
         System.out.print("Nome -> ");
         String nome = scan.nextLine();
@@ -110,24 +115,33 @@ public class ClienteView {
     //Escolhas no perfil de cliente
     public void Acoes()
     {
-        System.out.println("\nOpções disponíveis");
+        vaiVoltar = false;
+        acoesLoop: while(true){
 
-        System.out.println("1 - Escolher pedido");
-        System.out.println("2 - Dados do Perfil");
-        System.out.println("0 - Voltar");
-
-        System.out.print("Ação -> ");
-        choose = Integer.parseInt(scan.nextLine());
-
-        switch(choose)
-        {
-            case 1: pedido.ExibirMenu(); break;
-            case 2: MostrarDados(); break;
-            case 0: vaiVoltar = true; break;
-            default:
+            System.out.println("\n= Opções disponíveis");
+    
+            System.out.println("1 - Escolher pedido");
+            System.out.println("2 - Dados do Perfil");
+            System.out.println("0 - Voltar");
+    
+            System.out.print("Ação -> ");
+            choose = Integer.parseInt(scan.nextLine());
+    
+            switch(choose)
             {
-                System.out.println("\n!! Opa.. ação inválida !!");
-                vaiVoltar = true;
+                case 1: {
+                    pedido.ExibirMenu(); 
+                    if(vaiVoltar) break acoesLoop;
+                    break;
+                }
+                case 2: MostrarDados(); break;
+                case 0: {
+                    vaiVoltar = true; 
+                    break acoesLoop;
+                }
+                default:{
+                    System.out.println("\n!! Opa.. ação inválida !!");
+                }
             }
         }
     }
@@ -144,23 +158,23 @@ public class ClienteView {
         {
             System.out.println("!! Dados desativados para manutenção !!");
             
-            Acoes();
+            return;
         }
         else
         {
-            System.out.println("Dados da perfil:\n");
+            System.out.println("= Dados do perfil:\n");
             MostrarNome();
             MostrarEmail();
             MostrarSenha();
             MostrarTelefone();
             MostrarData();
 
-            System.out.print("\nDeseja alterar algum dado? (s / n) -> ");
+            System.out.print("\n= Deseja alterar algum dado? (s / n) -> ");
             String vaiAlterar = scan.nextLine();
 
             switch(vaiAlterar){
                 case "s" -> AlterarDados();
-                case "n" -> Acoes();
+                case "n" -> {}
                 default -> System.out.println("\n!! Opção invalida !!");
             }
         }
@@ -169,7 +183,7 @@ public class ClienteView {
     //Altrar dados cadastrados
     public void AlterarDados()
     {
-        System.out.println("Insira os novos dados: ");
+        System.out.println("= Insira os novos dados: ");
         AlterarNome();
         AlterarEmail();
         AlterarSenha();
@@ -177,7 +191,6 @@ public class ClienteView {
         AlterarData();
         System.out.println("Dados atualizados com sucesso!");
 
-        Acoes();
     }
 
     //Ação de voltar

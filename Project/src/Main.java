@@ -12,7 +12,7 @@ public class Main {
 
         doWhileLoop: do{
 
-            System.out.println("\nEscolha qual perfil deseja seguir");
+            System.out.println("\n= Escolha qual perfil deseja seguir");
             System.out.println("1 - Cliente");
             System.out.println("2 - Entregador");
             System.out.println("3 - Comerciante");
