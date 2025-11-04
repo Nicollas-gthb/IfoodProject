@@ -1,6 +1,5 @@
-import java.util.Scanner;
-
 import Views.ClienteView;
+import java.util.Scanner;
 //import Views.EntregadorView;
 
 public class Main {
@@ -13,7 +12,7 @@ public class Main {
         //variavel de controle sobre o cadastro do usuario
         boolean cadastroAtivo = true;
 
-        doWhileLoop: do{
+        doWhileLoop: while(true){
 
             System.out.println("\n= Escolha qual perfil deseja seguir");
             System.out.println("1 - Cliente");
@@ -58,7 +57,7 @@ public class Main {
                     System.out.println("Opa... opção inválida!\n");
                 }
             }
-        }while(true);
+        }
 
         scan.close();
         System.out.println("Fim do teste!");
