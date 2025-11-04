@@ -65,7 +65,7 @@ public class Carrinho {
 
         System.out.println("Itens no carrinho:\n");
         System.out.println("-- #Id --|- Produto -|-- Qtd --|-- Valor --");
-        System.out.println("-".repeat(40)); 
+        System.out.println("-".repeat(43)); 
 
         for (Map.Entry<Produto, Integer> item : carrinho.entrySet()) {
 
@@ -78,8 +78,8 @@ public class Carrinho {
             precoTotal += precoCalculado;
         }
 
-        System.out.println("-".repeat(40));    
-        System.out.println("Total do carrinho: " + precoTotal);
-        System.out.println("-".repeat(40));        
+        System.out.println("-".repeat(43));    
+        System.out.printf("Total do carrinho: %.2f\n", precoTotal);
+        System.out.println("-".repeat(43));        
     }
 }

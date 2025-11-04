@@ -10,6 +10,7 @@ import Modelos.Produto;
 public class PedidoView {
 
     Scanner scan = new Scanner(System.in);
+    PagamentoView pagamento = new PagamentoView();
     ClienteView cliente;
     Carrinho carrinho = new Carrinho();
 
@@ -28,16 +29,17 @@ public class PedidoView {
 
     public void ExibirMenu()
     {
-        System.out.println("\n--- Menu ---");
+        System.out.println("\n-------- Menu --------");
         for(Produto p : cardapio)
         {
-            System.out.println(p.getNome() + " : R$ " + p.getPreco());
+            System.out.print(p.getNome());
+            int spaces = 13 - p.getNome().length();
+            System.out.print(" ".repeat(spaces) + " : R$ ");
+            System.out.printf("%.2f\n", p.getPreco());
         }
-        
         Escolha();
     }
 
-    
     public void Escolha()
     {
         while(true){
@@ -45,6 +47,7 @@ public class PedidoView {
             System.out.println("1 - Adicionar item");
             System.out.println("2 - Remover item");
             System.out.println("3 - Ver carrinho");
+            System.out.println("4 - Confirmar pedido");
             System.out.println("0 - Voltar");
     
             System.out.print("= Ação -> ");
@@ -55,6 +58,7 @@ public class PedidoView {
                 case 1: AdicionarItem(); break;
                 case 2: RemoverItem(); break;
                 case 3: MostrarCarrinho(); break;
+                case 4: pagamento.Finalizar(); break;
                 case 0: {
                     cliente.setVaiVoltar(false);
                     return;
@@ -93,7 +97,7 @@ public class PedidoView {
             System.out.print("Digite o codigo do item para Remover (0 para encerrar) -> ");
             int codigoItem = Integer.parseInt(scan.nextLine());
             
-            if(codigoItem == 0) Escolha();
+            if(codigoItem == 0) return;
     
             System.out.print("Quantidade (0 para tirar do carrinho) -> ");
             int quantidade = Integer.parseInt(scan.nextLine());

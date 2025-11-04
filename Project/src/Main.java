@@ -1,14 +1,17 @@
 import java.util.Scanner;
 
 import Views.ClienteView;
+//import Views.EntregadorView;
 
 public class Main {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
         ClienteView cliente = new ClienteView();
+        //EntregadorView entregador = new EntregadorView();
 
-        boolean cadastroAtivo = false;
+        //variavel de controle sobre o cadastro do usuario
+        boolean cadastroAtivo = true;
 
         doWhileLoop: do{
 
@@ -35,15 +38,17 @@ public class Main {
                     cliente.Acoes();
                     if(cliente.Voltar()) continue doWhileLoop;
 
-                    break doWhileLoop;
+                    break;
                 }
                 case 2: {
                     System.out.println("Perfil Entregador");
-                    break doWhileLoop;
+
+                    
+                    break;
                 }
                 case 3: {
                     System.out.println("Perfil Comerciante");
-                    break doWhileLoop;
+                    break;
                 }
                 case 0: {
                     System.out.println("Saindo..");

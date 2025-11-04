@@ -60,4 +60,11 @@ public class Cliente {
     {
         this.dataNasc = d;
     }
+
+    
+    //@Override
+    //public String toString(){
+    //    String r = String.format("Nome: %s\nEmail: %s\nSenha: %s\nTelefone: %s\nData de nascimento: %s\n", nome, email, senha, telefone, dataNasc);
+    //    return r;
+    //}
 }
