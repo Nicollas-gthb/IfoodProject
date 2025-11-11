@@ -10,7 +10,7 @@ public class Main {
         //EntregadorView entregador = new EntregadorView();
 
         //variavel de controle sobre o cadastro do usuario
-        boolean cadastroAtivo = false;
+        boolean cadastroAtivo = true;
         int option;
 
         doWhileLoop: while(true){
@@ -26,7 +26,7 @@ public class Main {
                 option = Integer.parseInt(scan.nextLine());  
             }catch(NumberFormatException e){
                 System.out.println("\n!! Entrada invalida !!\n");
-                continue doWhileLoop;
+                continue;
             }
 
             switch (option) {
@@ -41,9 +41,8 @@ public class Main {
                     }
 
                     cliente.Acoes();
-                    if(cliente.Voltar()) continue doWhileLoop;
+                    if(cliente.Voltar()) break;
 
-                    break;
                 }
                 case 2: {
                     System.out.println("Perfil Entregador");
@@ -69,3 +68,7 @@ public class Main {
         System.out.println("Fim do teste!");
     }
 }
+
+//TODO adicionar classe de entregador (e provavelmente de veiculo para substituir o endereço no cadastro)
+//TODO adicionar classe de comerciante
+//TODO implementar conexão banco de dados
