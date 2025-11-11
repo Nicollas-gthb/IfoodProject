@@ -1,8 +1,8 @@
 package Views;
 
-import java.util.Scanner;
 import Modelos.Cliente;
 import Modelos.Endereco;
+import java.util.Scanner;
 
 public class ClienteView {
 
@@ -80,7 +80,7 @@ public class ClienteView {
 
         cliente = new Cliente(nome, email, senha, telefone, data);
         endereco = new Endereco(rua, numero, cidade, bairro, cep, complemento);
-    }
+    } 
 
     //Mostrar e Alterar dados cliente
     public void MostrarInfo(){
