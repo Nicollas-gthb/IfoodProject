@@ -162,9 +162,13 @@ public class ClienteView {
             System.out.println("2 - Dados do Perfil");
             System.out.println("0 - Voltar");
     
-            System.out.print("Ação -> ");
-            choose = Integer.parseInt(scan.nextLine());
-    
+            try{
+                System.out.print("Ação -> ");
+                choose = Integer.parseInt(scan.nextLine());
+            }catch(NumberFormatException e){
+                System.out.println("\n!! Entrada invalida !!\n");
+            }
+                
             switch(choose)
             {
                 case 1: {
@@ -234,7 +238,6 @@ public class ClienteView {
                 default: System.out.println("\n!! Opção invalida !!");
             }
         }
-
         System.out.println("Dados atualizados com sucesso!");
     }
 
@@ -244,5 +247,3 @@ public class ClienteView {
         return vaiVoltar;
     }
 }
-
-//TODO adicionar try-catch nos inputs

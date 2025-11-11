@@ -42,6 +42,7 @@ public class PedidoView {
 
     public void Escolha()
     {
+        int option;
         while(true){
             System.out.println("\n= Opções:");
             System.out.println("1 - Adicionar item");
@@ -50,8 +51,13 @@ public class PedidoView {
             System.out.println("4 - Confirmar pedido");
             System.out.println("0 - Voltar");
     
-            System.out.print("= Ação -> ");
-            int option = Integer.parseInt(scan.nextLine());
+            try{
+                System.out.print("= Ação -> ");
+                option = Integer.parseInt(scan.nextLine());
+            }catch(NumberFormatException e){
+                System.out.println("\n!! Entrada invalida !!\n");
+                continue;
+            }
             
             switch(option)
             {
@@ -72,21 +78,28 @@ public class PedidoView {
 
     public void AdicionarItem()
     {
+        int codigoItem;
+        int quantidade;
         while(true){
-            System.out.print("= Digite o codigo do item para Adicionar (0 para encerrar) -> ");
-            int codigoItem = Integer.parseInt(scan.nextLine());
-            
-            if(codigoItem == 0) return;
-    
-            System.out.print("Quantidade -> ");
-            int quantidade = Integer.parseInt(scan.nextLine());
-            
-            Produto item = Busca(codigoItem);
-            if(item != null){
-                carrinho.Adicionar(item, quantidade);
-            }
-            else{
-                System.out.println("! Item invalido !");
+            try{
+                System.out.print("= Digite o codigo do item para Adicionar (0 para encerrar) -> ");
+                codigoItem = Integer.parseInt(scan.nextLine());
+
+                if(codigoItem == 0) return;
+
+                System.out.print("Quantidade -> ");
+                quantidade = Integer.parseInt(scan.nextLine());
+
+                Produto item = Busca(codigoItem);
+                if(item != null){
+                    carrinho.Adicionar(item, quantidade);
+                }
+                else{
+                    System.out.println("! Item invalido !");
+                }
+            }catch(NumberFormatException e){
+                System.out.println("\n!! Entrada inválida, digite novamente.. !!\n");
+                continue;
             }
         }
     }
@@ -94,25 +107,31 @@ public class PedidoView {
     public void RemoverItem()
     {
         while(true){
-            System.out.print("Digite o codigo do item para Remover (0 para encerrar) -> ");
-            int codigoItem = Integer.parseInt(scan.nextLine());
-            
-            if(codigoItem == 0) return;
-    
-            System.out.print("Quantidade (0 para tirar do carrinho) -> ");
-            int quantidade = Integer.parseInt(scan.nextLine());
-    
-            Produto item = Busca(codigoItem);
-            if(item != null){
-                if(quantidade <= 0){
-                    carrinho.Remover(item);
+
+            try{
+                System.out.print("Digite o codigo do item para Remover (0 para encerrar) -> ");
+                int codigoItem = Integer.parseInt(scan.nextLine());
+                
+                if(codigoItem == 0) return;
+        
+                System.out.print("Quantidade (0 para tirar do carrinho) -> ");
+                int quantidade = Integer.parseInt(scan.nextLine());
+        
+                Produto item = Busca(codigoItem);
+                if(item != null){
+                    if(quantidade <= 0){
+                        carrinho.Remover(item);
+                    }
+                    else{
+                        carrinho.RemoverQuantidade(item, quantidade);
+                    }
                 }
                 else{
-                    carrinho.RemoverQuantidade(item, quantidade);
+                    System.out.println("! Item invalido !");
                 }
-            }
-            else{
-                System.out.println("! Item invalido !");
+            }catch(NumberFormatException e){
+                System.out.println("\n!! Entrada inválida, digite novamente.. !!\n");
+                continue;
             }
         }
     }

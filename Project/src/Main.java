@@ -11,7 +11,8 @@ public class Main {
         //EntregadorView entregador = new EntregadorView();
 
         //variavel de controle sobre o cadastro do usuario
-        boolean cadastroAtivo = true;
+        boolean cadastroAtivo = false;
+        int option;
 
         doWhileLoop: do{
 
@@ -21,8 +22,13 @@ public class Main {
             System.out.println("3 - Comerciante");
             System.out.println("0 - Sair");
 
-            System.out.print("Opção -> ");
-            int option = scan.nextInt();
+            try{
+                System.out.print("Opção -> ");
+                option = Integer.parseInt(scan.nextLine());  
+            }catch(NumberFormatException e){
+                System.out.println("\n!! Entrada invalida !!\n");
+                continue doWhileLoop;
+            }
 
             switch (option) {
                 case 1: {
