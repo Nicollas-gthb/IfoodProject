@@ -1,11 +1,10 @@
 package Views;
 
-import java.util.Scanner;
-import java.util.List;
-import java.util.Arrays;
-
 import Modelos.Carrinho;
 import Modelos.Produto;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class PedidoView {
 
@@ -19,7 +18,8 @@ public class PedidoView {
         new Produto(1, "Pizza", 34.99),
         new Produto(2, "Acai", 12.00),
         new Produto(3, "Hamburguer", 15.50),
-        new Produto(4, "Refrigerante", 7.59)
+        new Produto(4, "Refrigerante", 7.59),
+        new Produto(5, "Agua", 1.99)
     );
 
     //Construtor para receber a inicialização em 'ClienteView'
@@ -147,7 +147,6 @@ public class PedidoView {
         for(Produto p : cardapio){
             if(p.getId().equals(codigo)) return p;
         }
-
         return null;
     }
 }

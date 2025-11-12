@@ -1,16 +1,16 @@
 import Views.ClienteView;
 import java.util.Scanner;
-//import Views.EntregadorView;
+import Views.ComercianteView;
 
 public class Main {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
         ClienteView cliente = new ClienteView();
-        //EntregadorView entregador = new EntregadorView();
+        ComercianteView comerciante = new ComercianteView();
 
         //variavel de controle sobre o cadastro do usuario
-        boolean cadastroAtivo = true;
+        boolean cadastroAtivo = false;
         int option;
 
         doWhileLoop: while(true){
@@ -47,7 +47,8 @@ public class Main {
                 case 2: {
                     System.out.println("Perfil Entregador");
 
-                    
+                    comerciante.Acoes();
+
                     break;
                 }
                 case 3: {
@@ -70,5 +71,5 @@ public class Main {
 }
 
 //TODO adicionar classe de entregador (e provavelmente de veiculo para substituir o endereço no cadastro)
-//TODO adicionar classe de comerciante
+//TODO adicionar classe de comerciante (deixar ele controlar o que exibido no menu)
 //TODO implementar conexão banco de dados
