@@ -1,6 +1,7 @@
 package Views;
 
 import Modelos.Cliente;
+import Modelos.Comerciante;
 import Modelos.Endereco;
 import java.util.Scanner;
 
@@ -11,6 +12,7 @@ public class ClienteView {
     PedidoView pedido;
     Endereco endereco;
 
+    private Comerciante comerciante;
     private int choose;
     private boolean vaiVoltar = false;
     private boolean naoCadastrou = true;
@@ -18,8 +20,9 @@ public class ClienteView {
     private String vaiAlterar;
 
     //Construtor para inicializar 'PedidoView pedido'
-    public ClienteView(){
-        this.pedido = new PedidoView(this);   
+    public ClienteView(Comerciante c) {
+        this.comerciante = c;
+        this.pedido = new PedidoView(this.comerciante);
     }
 
     //setter para o vaiVoltar

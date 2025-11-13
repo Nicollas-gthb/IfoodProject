@@ -1,16 +1,21 @@
 package Views;
 
 import java.util.Scanner;
+import Modelos.Comerciante;
+import Modelos.Produto;
 
 public class ComercianteView {
 
-    private int choose;
-    private int escolhaP;
-
     Scanner scan = new Scanner(System.in);
+    private Comerciante comerciante;
+
+    public ComercianteView(Comerciante c){
+        this.comerciante = c;
+    }
 
     public void Acoes(){
 
+        int choose;
         acoesLoop: while(true){
             System.out.println("\n= Opções disponíveis");
 
@@ -19,10 +24,11 @@ public class ComercianteView {
             System.out.println("0 - Voltar");
 
             try{
-                System.out.println("Ação -> ");
+                System.out.print("Ação -> ");
                 choose = Integer.parseInt(scan.nextLine());
             }catch(NumberFormatException e){
                 System.out.println("\n !! Entrada inválida !!");
+                continue;
             }
 
             switch(choose){
@@ -44,6 +50,7 @@ public class ComercianteView {
     }
 
     public void GerenciarProdutos(){
+        int escolhaP;
         gpLoop: while(true){
             System.out.println("Opções:");
 
@@ -52,10 +59,11 @@ public class ComercianteView {
             System.out.println("0 - Voltar");
 
             try{
-                System.out.println("Escolha - >");
+                System.out.print("Escolha - > ");
                 escolhaP = Integer.parseInt(scan.nextLine());
             }catch(NumberFormatException e){
                 System.out.println("\n!! Entrada inválida !!");
+                continue;
             }
 
             switch(escolhaP){
@@ -64,6 +72,7 @@ public class ComercianteView {
                     break;
                 }
                 case 2:{
+                    RemoverProduto();
                     break;
                 }
                 case 0:{
@@ -78,13 +87,23 @@ public class ComercianteView {
     }
 
     public void AdicionarProduto(){
-        System.out.println("Digite o id : ");
+        System.out.print("Digite o id -> ");
         int id = Integer.parseInt(scan.nextLine());
 
-        System.out.println("Digite o nome : ");
+        System.out.print("Digite o nome -> ");
         String nome = scan.nextLine();
         
-        System.out.println("Digite o preço : ");
+        System.out.print("Digite o preço -> ");
         double preco = Double.parseDouble(scan.nextLine());
+
+        Produto p = new Produto(id, nome, preco);
+        comerciante.AdicionarProduto(p);
+    }
+
+    public void RemoverProduto(){
+        System.out.print("Digite o id -> ");
+        int id = Integer.parseInt(scan.nextLine());
+
+        comerciante.RemoverProduto(id);
     }
 }

@@ -1,49 +1,37 @@
 package Views;
 
+import Modelos.Comerciante;
 import Modelos.Carrinho;
 import Modelos.Produto;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+
 
 public class PedidoView {
 
     Scanner scan = new Scanner(System.in);
     PagamentoView pagamento = new PagamentoView();
-    ClienteView cliente;
     Carrinho carrinho = new Carrinho();
+    private Comerciante comerciante;
+    private List<Produto> cardapio;
 
-    //Cardapio
-    List<Produto> cardapio = Arrays.asList(
-        new Produto(1, "Pizza", 34.99),
-        new Produto(2, "Acai", 12.00),
-        new Produto(3, "Hamburguer", 15.50),
-        new Produto(4, "Refrigerante", 7.59),
-        new Produto(5, "Agua", 1.99)
-    );
-
-    //Construtor para receber a inicialização em 'ClienteView'
-    public PedidoView(ClienteView clienteV){
-        this.cliente = clienteV;
+    public PedidoView(Comerciante c){
+        this.comerciante = c;
+        this.cardapio = new ArrayList<>(comerciante.getCardapio());
     }
 
     public void ExibirMenu()
     {
-        System.out.println("\n-------- Menu --------");
-        for(Produto p : cardapio)
-        {
-            System.out.print(p.getNome());
-            int spaces = 13 - p.getNome().length();
-            System.out.print(" ".repeat(spaces) + " : R$ ");
-            System.out.printf("%.2f\n", p.getPreco());
-        }
+        comerciante.ListarCardapio();
         Escolha();
     }
 
     public void Escolha()
     {
         int option;
-        while(true){
+        escolhaLoop: while(true){
             System.out.println("\n= Opções:");
             System.out.println("1 - Adicionar item");
             System.out.println("2 - Remover item");
@@ -66,8 +54,7 @@ public class PedidoView {
                 case 3: MostrarCarrinho(); break;
                 case 4: pagamento.Finalizar(); break;
                 case 0: {
-                    cliente.setVaiVoltar(false);
-                    return;
+                    break escolhaLoop;
                 }
                 default: {
                     System.out.println("!! Opção inválida !!");
@@ -90,7 +77,7 @@ public class PedidoView {
                 System.out.print("Quantidade -> ");
                 quantidade = Integer.parseInt(scan.nextLine());
 
-                Produto item = Busca(codigoItem);
+                Produto item = comerciante.Busca(codigoItem);
                 if(item != null){
                     carrinho.Adicionar(item, quantidade);
                 }
@@ -99,7 +86,6 @@ public class PedidoView {
                 }
             }catch(NumberFormatException e){
                 System.out.println("\n!! Entrada inválida, digite novamente.. !!\n");
-                continue;
             }
         }
     }
@@ -117,7 +103,7 @@ public class PedidoView {
                 System.out.print("Quantidade (0 para tirar do carrinho) -> ");
                 int quantidade = Integer.parseInt(scan.nextLine());
         
-                Produto item = Busca(codigoItem);
+                Produto item = comerciante.Busca(codigoItem);
                 if(item != null){
                     if(quantidade <= 0){
                         carrinho.Remover(item);
@@ -131,7 +117,6 @@ public class PedidoView {
                 }
             }catch(NumberFormatException e){
                 System.out.println("\n!! Entrada inválida, digite novamente.. !!\n");
-                continue;
             }
         }
     }
@@ -139,14 +124,5 @@ public class PedidoView {
     public void MostrarCarrinho()
     {
         carrinho.Mostrar();
-    }
-
-    
-    public Produto Busca(int codigo)
-    {
-        for(Produto p : cardapio){
-            if(p.getId().equals(codigo)) return p;
-        }
-        return null;
     }
 }

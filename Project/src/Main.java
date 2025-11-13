@@ -1,13 +1,17 @@
 import Views.ClienteView;
-import java.util.Scanner;
 import Views.ComercianteView;
+import Modelos.Comerciante;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
-        ClienteView cliente = new ClienteView();
-        ComercianteView comerciante = new ComercianteView();
+
+        Comerciante comerciante = new Comerciante();
+        ClienteView cliente = new ClienteView(comerciante);
+        ComercianteView comercianteV = new ComercianteView(comerciante);
 
         //variavel de controle sobre o cadastro do usuario
         boolean cadastroAtivo = false;
@@ -46,13 +50,11 @@ public class Main {
                 }
                 case 2: {
                     System.out.println("Perfil Entregador");
-
-                    comerciante.Acoes();
-
                     break;
                 }
                 case 3: {
                     System.out.println("Perfil Comerciante");
+                    comercianteV.Acoes();
                     break;
                 }
                 case 0: {
