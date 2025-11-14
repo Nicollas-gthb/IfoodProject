@@ -12,7 +12,7 @@ public class PagamentoView {
     public boolean Finalizar(){
         int metodo;
 
-        finalLoop: while(true){
+        while(true){
             System.out.println("\n=Escolha o metodo de pagamento: ");
 
             System.out.println("1 - Cartão");
@@ -64,7 +64,8 @@ public class PagamentoView {
             }
         }
         
-        pagamento.DadosCartao(tipo, numero, senhaCartao);        
+        pagamento.DadosCartao(tipo, numero, senhaCartao);    
+        pagamento.FormaPagamento("Cartão");    
     }
 
     public void Pix(){
@@ -88,6 +89,7 @@ public class PagamentoView {
                 System.out.println("\n!! Entrada inválida !!\n");
             }
         }
-        pagamento.DadosPix(chave, senhaPix);                
+        pagamento.DadosPix(chave, senhaPix);
+        pagamento.FormaPagamento("Pix");                 
     }
 }

@@ -8,6 +8,8 @@ public class Pagamento {
     private String chave;
     private int senhaPix;
 
+    private String forma;
+
     /* 
     public Pagamento(int t, String n, int sc, String c, int sp){
         this.tipo = t;
@@ -63,4 +65,15 @@ public class Pagamento {
     public void setSenhaPix(int sp){
         this.senhaPix = sp;
     }
+
+    public void FormaPagamento(String f){
+        this.forma = f;
+    }
+
+    public String getForma(){
+        return forma;
+    }
+    public void setForma(String forma) {
+        this.forma = forma;
+    } 
 }
