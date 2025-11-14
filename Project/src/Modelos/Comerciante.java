@@ -6,6 +6,38 @@ import java.util.ArrayList;
 public class Comerciante {
 
     List<Produto> cardapio = new ArrayList<>();
+    List<Pedido> pedidos = new ArrayList<>();
+
+    public void AdicionarPedido(Pedido pedido){
+        pedidos.add(pedido);
+    }
+
+    public List<Pedido> getPedidosPendentes(){
+        return pedidos.stream().filter(p -> p.getStatus().equals("Pendente")).toList();
+    }
+
+    public void AprovarPedido(int id){
+        Pedido p = BuscaPedido(id);
+        if(p != null){
+            p.setStatus("Aprovado");
+            System.out.println("! Pedido aprovado");
+        }
+    }
+
+    public void RecusarPedido(int id){
+        Pedido p = BuscaPedido(id);
+        if(p != null){
+            p.setStatus("Recusado");
+            System.out.println("! Pedido recusado");
+        }
+    }
+
+    public Pedido BuscaPedido(int id){
+        for(Pedido p : pedidos){
+            if(p.getId() == id){return p;}
+        }
+        return null;
+    }
 
     public void AdicionarProduto(Produto produto){
         cardapio.add(produto);
@@ -39,7 +71,7 @@ public class Comerciante {
         if(cardapio.isEmpty()){
             System.out.println("\n!! Cardápio indisponível !!");
         }else{
-            System.out.println("\n-------- Menu --------");
+            System.out.println("\n---------- Menu ----------");
             for(Produto p : cardapio){
                 System.out.print(p.getId() + "# ");
                 System.out.print(p.getNome());

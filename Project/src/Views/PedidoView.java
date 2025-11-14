@@ -5,6 +5,7 @@ import Modelos.Carrinho;
 import Modelos.Produto;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 
@@ -21,6 +22,8 @@ public class PedidoView {
         this.comerciante = c;
         this.cardapio = new ArrayList<>(comerciante.getCardapio());
     }
+
+    ComercianteView cv = new ComercianteView(this);
 
     public void ExibirMenu()
     {
@@ -52,7 +55,13 @@ public class PedidoView {
                 case 1: AdicionarItem(); break;
                 case 2: RemoverItem(); break;
                 case 3: MostrarCarrinho(); break;
-                case 4: pagamento.Finalizar(); break;
+                case 4: {
+                    /*if(pagamento.Finalizar()){
+                        GerarDemanda();
+                    }*/
+                    System.out.println("Manutenção");
+                }
+                break;
                 case 0: {
                     break escolhaLoop;
                 }
@@ -125,4 +134,9 @@ public class PedidoView {
     {
         carrinho.Mostrar();
     }
+
+    /*public Map<Produto, Integer> GerarDemanda()
+    {
+        return carrinho.getCarrinho();
+    }*/
 }

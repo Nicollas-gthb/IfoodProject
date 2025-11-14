@@ -82,4 +82,8 @@ public class Carrinho {
         System.out.printf("Total do carrinho: %.2f\n", precoTotal);
         System.out.println("-".repeat(43));        
     }
+
+    public Map<Produto, Integer> getCarrinho() {
+        return carrinho;
+    }
 }

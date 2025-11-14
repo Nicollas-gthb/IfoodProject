@@ -1,6 +1,7 @@
 import Views.ClienteView;
 import Views.ComercianteView;
 import Modelos.Comerciante;
+import Views.PedidoView;
 
 import java.util.Scanner;
 
@@ -73,5 +74,5 @@ public class Main {
 }
 
 //TODO adicionar classe de entregador (e provavelmente de veiculo para substituir o endereço no cadastro)
-//TODO adicionar classe de comerciante (deixar ele controlar o que exibido no menu)
 //TODO implementar conexão banco de dados
+//TODO depois que o cliente finaliza o pedido, ele deve aparecer para o comerciante

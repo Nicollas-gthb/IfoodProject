@@ -1,6 +1,9 @@
 package Views;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
 import Modelos.Comerciante;
 import Modelos.Produto;
 
@@ -8,9 +11,15 @@ public class ComercianteView {
 
     Scanner scan = new Scanner(System.in);
     private Comerciante comerciante;
+    private PedidoView pedido;
+    private Map<Produto, Integer> carrinho;
 
     public ComercianteView(Comerciante c){
         this.comerciante = c;
+    }
+
+    public ComercianteView(PedidoView pv){
+        this.pedido = pv;
     }
 
     public void Acoes(){
@@ -20,7 +29,7 @@ public class ComercianteView {
             System.out.println("\n= Opções disponíveis");
 
             System.out.println("1 - Gerenciar produtos");
-            System.out.println("2 - ");
+            System.out.println("2 - Gerenciar pedidos");
             System.out.println("0 - Voltar");
 
             try{
@@ -37,6 +46,7 @@ public class ComercianteView {
                     break;
                 }
                 case 2:{
+                    GerenciarPedidos();
                     break;
                 }
                 case 0:{
@@ -105,5 +115,21 @@ public class ComercianteView {
         int id = Integer.parseInt(scan.nextLine());
 
         comerciante.RemoverProduto(id);
+    }
+
+    public void GerenciarPedidos(){
+        /*carrinho = pedido.GerarDemanda();
+
+        if(carrinho.isEmpty()){
+            System.out.println("\n!! Sem pedidos no momento!!\n");
+        }else{
+            System.out.println("Dados dos produtos gerados com sucesso!");
+            for(Map.Entry<Produto, Integer> map : carrinho.entrySet()){
+                System.out.println(map.getKey().getId() + "# " + map.getKey().getNome() + " - Qtd: " + map.getValue());
+            }
+        }
+
+        System.out.println("Deu certo? -> ");
+        scan.nextLine();*/
     }
 }

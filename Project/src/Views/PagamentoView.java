@@ -1,16 +1,15 @@
 package Views;
 
 import java.util.Scanner;
-
 import Modelos.Pagamento;
 
 public class PagamentoView {
 
-    Scanner scan = new Scanner(System.in); 
-    PedidoView pedido;
+    Scanner scan = new Scanner(System.in);
     Pagamento pagamento = new Pagamento();
+    private boolean confirmado = false;
 
-    public void Finalizar(){
+    public boolean Finalizar(){
         int metodo;
 
         finalLoop: while(true){
@@ -25,13 +24,13 @@ public class PagamentoView {
                 metodo = Integer.parseInt(scan.nextLine());
             }catch(NumberFormatException e){
                 System.out.println("\n!!Entrada inválida!!\n");
-                continue finalLoop;
+                continue;
             }
 
             switch(metodo){
-                case 1: Cartao(); break finalLoop;
-                case 2: Pix(); break finalLoop;
-                case 0: break finalLoop;
+                case 1: Cartao(); return confirmado;
+                case 2: Pix(); return confirmado;
+                case 0: return confirmado;
                 default: {
                     System.out.println("\n ! Metodo inválido !\n");
                 }
@@ -57,10 +56,11 @@ public class PagamentoView {
 
                 System.out.println("\n Pedido realizado com sucesso !!\n");
                 System.out.println("Só aguardar a entrega...");
+
+                confirmado = true;
                 break;
             }catch(NumberFormatException e){
                 System.out.println("\n!!Entrada inválida!!\n");
-                continue;
             }
         }
         
@@ -81,14 +81,13 @@ public class PagamentoView {
 
                 System.out.println("\n Pedido realizado com sucesso !!\n");
                 System.out.println("Só aguardar a entrega...");
+
+                confirmado = true;
                 break;
             }catch(NumberFormatException e){
                 System.out.println("\n!! Entrada inválida !!\n");
-                continue;
             }
         }
-        
         pagamento.DadosPix(chave, senhaPix);                
     }
-
 }
