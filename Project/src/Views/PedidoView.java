@@ -3,6 +3,10 @@ package Views;
 import Modelos.Comerciante;
 import Modelos.Carrinho;
 import Modelos.Produto;
+import Modelos.Pedido;
+import Modelos.Cliente;
+import Modelos.Pagamento;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +19,14 @@ public class PedidoView {
     Scanner scan = new Scanner(System.in);
     PagamentoView pagamento = new PagamentoView();
     Carrinho carrinho = new Carrinho();
+    Pedido pedido;
+    Cliente cliente;
+    Pagamento formaPagamento;
+
     private Comerciante comerciante;
     private List<Produto> cardapio;
+    private boolean pagou;
+    private int contadorId = 1;
 
     public PedidoView(Comerciante c){
         this.comerciante = c;
@@ -56,12 +66,15 @@ public class PedidoView {
                 case 2: RemoverItem(); break;
                 case 3: MostrarCarrinho(); break;
                 case 4: {
-                    /*if(pagamento.Finalizar()){
-                        GerarDemanda();
-                    }*/
-                    System.out.println("Manutenção");
+                    pagou = pagamento.Finalizar(); 
+
+                    if(pagou){
+                        ConfirmarPedido();
+                    }else{
+                        System.out.println("\n!! Pagamento não foi aprovado !!\n");
+                    }
+                    break;
                 }
-                break;
                 case 0: {
                     break escolhaLoop;
                 }
@@ -134,6 +147,27 @@ public class PedidoView {
     {
         carrinho.Mostrar();
     }
+
+    public void ConfirmarPedido(){
+        if(!pagou){
+            System.out.println("\n ! Pagamento negado, pedido não gerado !");
+            return;
+        }
+
+        pedido = new Pedido(
+            GerarIdPedido(),
+            carrinho.getCarrinho(),
+            carrinho.Total(),
+            cliente.getNome(),
+            formaPagamento.getForma()
+            );
+    }
+
+    public int GerarIdPedido(){
+        return contadorId++;
+    }
+
+
 
     /*public Map<Produto, Integer> GerarDemanda()
     {

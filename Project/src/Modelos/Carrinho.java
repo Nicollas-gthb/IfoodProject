@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class Carrinho {
     
     private Map<Produto, Integer> carrinho = new HashMap<>();
+    private double precoTotal;
     
     public void Adicionar(Produto pdt, int qtd)
     {
@@ -61,7 +62,7 @@ public class Carrinho {
             return;
         }
 
-        double precoTotal = 0;
+        precoTotal = 0;
 
         System.out.println("Itens no carrinho:\n");
         System.out.println("-- #Id --|- Produto -|-- Qtd --|-- Valor --");
@@ -81,6 +82,10 @@ public class Carrinho {
         System.out.println("-".repeat(43));    
         System.out.printf("Total do carrinho: %.2f\n", precoTotal);
         System.out.println("-".repeat(43));        
+    }
+
+    public double Total(){
+        return precoTotal;
     }
 
     public Map<Produto, Integer> getCarrinho() {

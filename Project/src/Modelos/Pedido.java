@@ -9,9 +9,9 @@ public class Pedido {
     private double valorTotal;
     private String status = "Pendente";
     private String nomeCliente;
-    private String formaPagamento;
+    private int formaPagamento;
 
-    public Pedido(int id, List<Carrinho> itens,  double valorTotal, String nomeCliente, String formaPagamento) {
+    public Pedido(int id, List<Carrinho> itens,  double valorTotal, String nomeCliente, int formaPagamento) {
         this.id = id;
         this.itensCarrinho = itens;
         this.valorTotal = valorTotal;
@@ -23,7 +23,7 @@ public class Pedido {
     public List<Carrinho> getItensCarrinho() {return itensCarrinho;}
     public double getValorTotal() {return valorTotal;}
     public String getNomeCliente() {return nomeCliente;}
-    public String getFormaPagamento() {return formaPagamento;}
+    public int getFormaPagamento() {return formaPagamento;}
     public String getStatus() {return status;}
 
     public void setStatus(String status) {this.status = status;}
