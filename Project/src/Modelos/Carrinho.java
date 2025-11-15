@@ -74,8 +74,7 @@ public class Carrinho {
             int quantidade = item.getValue();
             
             double precoCalculado = produto.getPreco() * quantidade;
-            System.out.println("#" + produto.getId() + " | " + produto.getNome() + " | " + quantidade + " | " + precoCalculado);
-
+            System.out.printf("#%d | %s | %d | %.2f\n", produto.getId(), produto.getNome(), quantidade, precoCalculado);
             precoTotal += precoCalculado;
         }
 
@@ -86,6 +85,10 @@ public class Carrinho {
 
     public double Total(){
         return precoTotal;
+    }
+
+    public void Limpar(){
+        carrinho.clear();
     }
 
     public Map<Produto, Integer> getCarrinho() {

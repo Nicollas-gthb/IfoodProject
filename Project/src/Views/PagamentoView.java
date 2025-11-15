@@ -6,13 +6,17 @@ import Modelos.Pagamento;
 public class PagamentoView {
 
     Scanner scan = new Scanner(System.in);
-    Pagamento pagamento = new Pagamento();
+    private Pagamento pagamento; //trocar para 'new Pagamento()' e remover construtor de new Pagamento()
     private boolean confirmado = false;
+
+    public PagamentoView() {
+        this.pagamento = new Pagamento();
+    }
 
     public boolean Finalizar(){
         int metodo;
 
-        while(true){
+        finalizarLoop: while(true){
             System.out.println("\n=Escolha o metodo de pagamento: ");
 
             System.out.println("1 - Cartão");
@@ -28,9 +32,21 @@ public class PagamentoView {
             }
 
             switch(metodo){
-                case 1: Cartao(); return confirmado;
-                case 2: Pix(); return confirmado;
-                case 0: return confirmado;
+                case 1:{
+                    if(Cartao()){
+                        return true;
+                    }else{
+                        continue;
+                    }
+                }
+                case 2: {
+                    if(Pix()){
+                        return true;
+                    }else{
+                        continue;
+                    }
+                }
+                case 0: return false;
                 default: {
                     System.out.println("\n ! Metodo inválido !\n");
                 }
@@ -38,58 +54,47 @@ public class PagamentoView {
         }
     }
 
-    public void Cartao(){
+    public boolean Cartao(){
         int tipo;
         String numero;
         int senhaCartao;
 
-        while(true){
-            try{
-                System.out.print("(1) Credito ou (2) Debito -> ");
-                tipo = Integer.parseInt(scan.nextLine());
+        System.out.print("(1) Credito ou (2) Debito -> ");
+        tipo = Integer.parseInt(scan.nextLine());
 
-                System.out.print("Insira numero do cartao -> ");
-                numero = scan.nextLine();
+        System.out.print("Insira numero do cartao -> ");
+        numero = scan.nextLine();
 
-                System.out.print("Senha -> ");
-                senhaCartao = Integer.parseInt(scan.nextLine());
+        System.out.print("Senha -> ");
+        senhaCartao = Integer.parseInt(scan.nextLine());
 
-                System.out.println("\n Pedido realizado com sucesso !!\n");
-                System.out.println("Só aguardar a entrega...");
-
-                confirmado = true;
-                break;
-            }catch(NumberFormatException e){
-                System.out.println("\n!!Entrada inválida!!\n");
-            }
-        }
-        
+        confirmado = true;
+        System.out.println("\n Pedido realizado com sucesso !!\n");
+        System.out.println("Só aguardar a entrega...");
         pagamento.DadosCartao(tipo, numero, senhaCartao);    
-        pagamento.FormaPagamento("Cartão");    
+        pagamento.setForma("Cartão");
+        return confirmado;
     }
 
-    public void Pix(){
+    public boolean Pix(){
         String chave;
         int senhaPix;
 
-        while(true){
-            try{
-                System.out.print("Insira a chave/código PIX -> ");
-                chave = scan.nextLine();
+        System.out.print("Insira a chave/código PIX -> ");
+        chave = scan.nextLine();
 
-                System.out.print("Senha -> ");
-                senhaPix = Integer.parseInt(scan.nextLine());
+        System.out.print("Senha -> ");
+        senhaPix = Integer.parseInt(scan.nextLine());
 
-                System.out.println("\n Pedido realizado com sucesso !!\n");
-                System.out.println("Só aguardar a entrega...");
-
-                confirmado = true;
-                break;
-            }catch(NumberFormatException e){
-                System.out.println("\n!! Entrada inválida !!\n");
-            }
-        }
+        confirmado = true;
+        System.out.println("\n Pedido realizado com sucesso !!\n");
+        System.out.println("Só aguardar a entrega...");
         pagamento.DadosPix(chave, senhaPix);
-        pagamento.FormaPagamento("Pix");                 
+        pagamento.setForma("Pix");
+        return confirmado;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
     }
 }

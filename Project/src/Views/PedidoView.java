@@ -1,15 +1,11 @@
 package Views;
 
-import Modelos.Comerciante;
-import Modelos.Carrinho;
-import Modelos.Produto;
-import Modelos.Pedido;
-import Modelos.Cliente;
-import Modelos.Pagamento;
+import Modelos.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 
@@ -23,20 +19,21 @@ public class PedidoView {
     Cliente cliente;
     Pagamento formaPagamento;
 
-    private Comerciante comerciante;
-    private List<Produto> cardapio;
+    private final Comerciante comerciante;
+    private final ClienteView clienteView;
     private boolean pagou;
     private int contadorId = 1;
+    ComercianteView cmv = new ComercianteView(this);
 
-    public PedidoView(Comerciante c){
+    public PedidoView(Comerciante c, ClienteView cv) {
         this.comerciante = c;
-        this.cardapio = new ArrayList<>(comerciante.getCardapio());
+        this.clienteView = cv;
     }
 
-    ComercianteView cv = new ComercianteView(this);
 
     public void ExibirMenu()
     {
+        List<Produto> cardapio = comerciante.getCardapio();
         comerciante.ListarCardapio();
         Escolha();
     }
@@ -66,13 +63,9 @@ public class PedidoView {
                 case 2: RemoverItem(); break;
                 case 3: MostrarCarrinho(); break;
                 case 4: {
-                    pagou = pagamento.Finalizar(); 
-
-                    if(pagou){
-                        ConfirmarPedido();
-                    }else{
-                        System.out.println("\n!! Pagamento não foi aprovado !!\n");
-                    }
+                    pagou = pagamento.Finalizar();
+                    this.formaPagamento = pagamento.getPagamento();
+                    ConfirmarPedido();
                     break;
                 }
                 case 0: {
@@ -154,23 +147,26 @@ public class PedidoView {
             return;
         }
 
+        Map<Produto, Integer> mapa = carrinho.getCarrinho();
+        List<ItensCarrinho> itensLista = new ArrayList<>();
+        for (Entry<Produto,Integer> e : mapa.entrySet()) {
+            itensLista.add(new ItensCarrinho(e.getKey(), e.getValue()));
+        }
+
         pedido = new Pedido(
             GerarIdPedido(),
-            carrinho.getCarrinho(),
+            itensLista,
             carrinho.Total(),
-            cliente.getNome(),
+            clienteView.getNomeCliente(),
             formaPagamento.getForma()
-            );
+        );
+
+        comerciante.AdicionarPedido(pedido);
+        System.out.println("\nPedido Enviado!\n");
+        carrinho.Limpar();
     }
 
     public int GerarIdPedido(){
         return contadorId++;
     }
-
-
-
-    /*public Map<Produto, Integer> GerarDemanda()
-    {
-        return carrinho.getCarrinho();
-    }*/
 }

@@ -1,10 +1,13 @@
 package Views;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import Modelos.Carrinho;
 import Modelos.Comerciante;
+import Modelos.Pedido;
 import Modelos.Produto;
 
 public class ComercianteView {
@@ -118,18 +121,39 @@ public class ComercianteView {
     }
 
     public void GerenciarPedidos(){
-        /*carrinho = pedido.GerarDemanda();
+        int id;
+        String aprovacao;
 
-        if(carrinho.isEmpty()){
-            System.out.println("\n!! Sem pedidos no momento!!\n");
-        }else{
-            System.out.println("Dados dos produtos gerados com sucesso!");
-            for(Map.Entry<Produto, Integer> map : carrinho.entrySet()){
-                System.out.println(map.getKey().getId() + "# " + map.getKey().getNome() + " - Qtd: " + map.getValue());
-            }
+        List<Pedido> pendentes = comerciante.getPedidosPendentes();
+
+        if(pendentes.isEmpty()){
+            System.out.println("Nenhum pedido encontrado!");
+            return;
         }
 
-        System.out.println("Deu certo? -> ");
-        scan.nextLine();*/
+        for(Pedido p : pendentes){
+            System.out.println("=======================");
+            System.out.println("Pedido #" + p.getId());
+            System.out.println("Cliente: " + p.getNomeCliente());
+            System.out.println("Total R$: " + p.getValorTotal());
+            System.out.println("Pagamento: " + p.getFormaPagamento());
+        }
+
+        try{
+            System.out.print("\nDigite o id do pedido para aprovar/recusar (0 para sair) -> ");
+            id = Integer.parseInt(scan.nextLine());
+
+            if(id == 0) return;
+
+            System.out.print("Aprovar(a) ou recusar(r)? -> ");
+            aprovacao = scan.nextLine();
+
+        }catch(NumberFormatException e){
+            System.out.println("\n!! Entrada inválida !!\n");
+            return;
+        }
+
+        if(aprovacao.equals("a")) comerciante.AprovarPedido(id);
+        if(aprovacao.equals("r")) comerciante.RecusarPedido(id);
     }
 }

@@ -8,36 +8,50 @@ public class Comerciante {
     List<Produto> cardapio = new ArrayList<>();
     List<Pedido> pedidos = new ArrayList<>();
 
+    public List<Produto> getCardapio(){
+        return cardapio;
+    }
+
     public void AdicionarPedido(Pedido pedido){
         pedidos.add(pedido);
+        System.out.println("\nNovo pedido adicionado com sucesso !");
     }
 
     public List<Pedido> getPedidosPendentes(){
-        return pedidos.stream().filter(p -> p.getStatus().equals("Pendente")).toList();
+        List<Pedido> pedidosPendentes = new ArrayList<>();
+        for(Pedido p : pedidos){
+            if(!p.Concluido()) pedidosPendentes.add(p);
+        }
+
+        return pedidosPendentes;
+    }
+
+    public Pedido BuscaPedido(int id){
+        for(Pedido p : pedidos){
+            if(p.getId() == id) return p;
+        }
+        return null;
     }
 
     public void AprovarPedido(int id){
         Pedido p = BuscaPedido(id);
         if(p != null){
-            p.setStatus("Aprovado");
-            System.out.println("! Pedido aprovado");
+            p.MarcarComoConcluido();
+            System.out.println("! Pedido marcado #" + id+ " como concluido");
+        }else{
+            System.out.println("\n!! Nenhum pedido foi encontrado !!\n");
         }
     }
 
     public void RecusarPedido(int id){
         Pedido p = BuscaPedido(id);
         if(p != null){
-            p.setStatus("Recusado");
             System.out.println("! Pedido recusado");
+        }else{
+            System.out.println("\n!! Nenhum pedido foi encontrado !!\n");
         }
     }
 
-    public Pedido BuscaPedido(int id){
-        for(Pedido p : pedidos){
-            if(p.getId() == id){return p;}
-        }
-        return null;
-    }
 
     public void AdicionarProduto(Produto produto){
         cardapio.add(produto);
@@ -80,9 +94,5 @@ public class Comerciante {
                 System.out.printf("%.2f\n", p.getPreco());
             }
         }
-    }
-
-    public List<Produto> getCardapio(){
-        return cardapio;
     }
 }

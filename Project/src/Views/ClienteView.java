@@ -21,8 +21,7 @@ public class ClienteView {
 
     //Construtor para inicializar 'PedidoView pedido'
     public ClienteView(Comerciante c) {
-        this.comerciante = c;
-        this.pedido = new PedidoView(this.comerciante);
+        this.pedido = new PedidoView(c, this);
     }
 
     //setter para o vaiVoltar
@@ -248,5 +247,10 @@ public class ClienteView {
     public boolean Voltar()
     {
         return vaiVoltar;
+    }
+
+    public String getNomeCliente() {
+        if (cliente != null) return cliente.getNome();
+        return "Cliente desconhecido";
     }
 }

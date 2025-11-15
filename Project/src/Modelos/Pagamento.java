@@ -9,16 +9,6 @@ public class Pagamento {
     private int senhaPix;
 
     private String forma;
-
-    /* 
-    public Pagamento(int t, String n, int sc, String c, int sp){
-        this.tipo = t;
-        this.numero = n;
-        this.senhaCartao = sc;
-        this.chave = c;
-        this.senhaPix = sp;
-    }
-    */
     
     public void DadosCartao(int t, String n, int sc){
         this.tipo = t;
@@ -30,6 +20,7 @@ public class Pagamento {
         this.chave = c;
         this.senhaPix = sp;
     }
+
 
     public int getTipo(){
         return tipo;
@@ -64,10 +55,6 @@ public class Pagamento {
     }
     public void setSenhaPix(int sp){
         this.senhaPix = sp;
-    }
-
-    public void FormaPagamento(String f){
-        this.forma = f;
     }
 
     public String getForma(){

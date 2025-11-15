@@ -5,13 +5,13 @@ import java.util.List;
 public class Pedido {
 
     private int id;
-    private List<Carrinho> itensCarrinho;
+    private List<ItensCarrinho> itensCarrinho;
     private double valorTotal;
-    private String status = "Pendente";
     private String nomeCliente;
-    private int formaPagamento;
+    private String formaPagamento;
+    private boolean concluido = false;
 
-    public Pedido(int id, List<Carrinho> itens,  double valorTotal, String nomeCliente, int formaPagamento) {
+    public Pedido(int id, List<ItensCarrinho> itens,  double valorTotal, String nomeCliente, String formaPagamento) {
         this.id = id;
         this.itensCarrinho = itens;
         this.valorTotal = valorTotal;
@@ -20,11 +20,12 @@ public class Pedido {
     }
 
     public int getId() {return id;}
-    public List<Carrinho> getItensCarrinho() {return itensCarrinho;}
+    public List<ItensCarrinho> getItensCarrinho() {return itensCarrinho;}
     public double getValorTotal() {return valorTotal;}
     public String getNomeCliente() {return nomeCliente;}
-    public int getFormaPagamento() {return formaPagamento;}
-    public String getStatus() {return status;}
+    public String getFormaPagamento() {return formaPagamento;}
 
-    public void setStatus(String status) {this.status = status;}
+    public boolean Concluido() {return concluido;}
+
+    public void MarcarComoConcluido() {this.concluido = true;}
 }

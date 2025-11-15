@@ -1,7 +1,6 @@
 import Views.ClienteView;
 import Views.ComercianteView;
 import Modelos.Comerciante;
-import Views.PedidoView;
 
 import java.util.Scanner;
 
@@ -15,7 +14,7 @@ public class Main {
         ComercianteView comercianteV = new ComercianteView(comerciante);
 
         //variavel de controle sobre o cadastro do usuario
-        boolean cadastroAtivo = false;
+        boolean cadastroAtivo = true;
         int option;
 
         doWhileLoop: while(true){
