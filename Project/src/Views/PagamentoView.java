@@ -16,7 +16,7 @@ public class PagamentoView {
     public boolean Finalizar(){
         int metodo;
 
-        finalizarLoop: while(true){
+        while(true){
             System.out.println("\n=Escolha o metodo de pagamento: ");
 
             System.out.println("1 - Cartão");

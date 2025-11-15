@@ -1,6 +1,7 @@
 package Modelos;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Pedido {
 
@@ -28,4 +29,22 @@ public class Pedido {
     public boolean Concluido() {return concluido;}
 
     public void MarcarComoConcluido() {this.concluido = true;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        // Verifica se o objeto é nulo ou de uma classe diferente
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pedido pedido = (Pedido) o;
+
+        // Define que dois pedidos são iguais se tiverem o mesmo ID
+        return id == pedido.id;
+    }
+
+    @Override
+    public int hashCode() {
+        // Gera o código hash baseado no ID
+        return Objects.hash(id);
+    }
 }

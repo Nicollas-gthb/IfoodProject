@@ -1,11 +1,11 @@
 package Views;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import Modelos.Carrinho;
+
 import Modelos.Comerciante;
 import Modelos.Pedido;
 import Modelos.Produto;
@@ -68,7 +68,7 @@ public class ComercianteView {
         comerciante.ListarCardapio();
 
         gpLoop: while(true){
-            System.out.println("Opções:");
+            System.out.println("\nOpções:");
 
             System.out.println("1 - Adicionar produto");
             System.out.println("2 - Remover produto");

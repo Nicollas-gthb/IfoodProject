@@ -59,10 +59,4 @@ public class Endereco {
         this.complemento = cm;
     }
 
-    
-    //@Override 
-    //public String toString(){
-    //    String r = String.format("Rua: %s\nNº: %s\nBairro: %s\nCidade: %s\nCEP: %s\nComplemento: %s", rua, numero, bairro, cidade, cep, complemento);
-    //    return r;
-    //}
 }
