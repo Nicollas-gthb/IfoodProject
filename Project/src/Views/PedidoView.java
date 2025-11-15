@@ -162,7 +162,7 @@ public class PedidoView {
         );
 
         comerciante.AdicionarPedido(pedido);
-        System.out.println("\nPedido Enviado!\n");
+        System.out.println("Pedido enviado ao comerciante!\n");
         carrinho.Limpar();
     }
 

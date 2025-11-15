@@ -64,6 +64,9 @@ public class ComercianteView {
 
     public void GerenciarProdutos(){
         int escolhaP;
+
+        comerciante.ListarCardapio();
+
         gpLoop: while(true){
             System.out.println("Opções:");
 

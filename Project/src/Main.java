@@ -74,4 +74,3 @@ public class Main {
 
 //TODO adicionar classe de entregador (e provavelmente de veiculo para substituir o endereço no cadastro)
 //TODO implementar conexão banco de dados
-//TODO depois que o cliente finaliza o pedido, ele deve aparecer para o comerciante

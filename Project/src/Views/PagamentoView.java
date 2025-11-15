@@ -69,7 +69,7 @@ public class PagamentoView {
         senhaCartao = Integer.parseInt(scan.nextLine());
 
         confirmado = true;
-        System.out.println("\n Pedido realizado com sucesso !!\n");
+        System.out.println("\nPedido realizado com sucesso !!\n");
         System.out.println("Só aguardar a entrega...");
         pagamento.DadosCartao(tipo, numero, senhaCartao);    
         pagamento.setForma("Cartão");
@@ -87,7 +87,7 @@ public class PagamentoView {
         senhaPix = Integer.parseInt(scan.nextLine());
 
         confirmado = true;
-        System.out.println("\n Pedido realizado com sucesso !!\n");
+        System.out.println("\nPedido realizado com sucesso !!\n");
         System.out.println("Só aguardar a entrega...");
         pagamento.DadosPix(chave, senhaPix);
         pagamento.setForma("Pix");
