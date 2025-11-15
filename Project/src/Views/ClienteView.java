@@ -3,6 +3,7 @@ package Views;
 import Modelos.Cliente;
 import Modelos.Comerciante;
 import Modelos.Endereco;
+
 import java.util.Scanner;
 
 public class ClienteView {
@@ -12,7 +13,6 @@ public class ClienteView {
     PedidoView pedido;
     Endereco endereco;
 
-    private Comerciante comerciante;
     private int choose;
     private boolean vaiVoltar = false;
     private boolean naoCadastrou = true;
@@ -198,13 +198,9 @@ public class ClienteView {
 
     public void MostrarDados()
     {
-        if(!ativo)
-        {
+        if(!ativo){
             System.out.println("!! Dados desativados para manutenção !!");
-            return;
-        }
-        else
-        {
+        }else{
             System.out.println("= Dados do perfil:\n");
             MostrarInfo();
             

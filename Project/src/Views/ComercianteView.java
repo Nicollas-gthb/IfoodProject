@@ -1,14 +1,13 @@
 package Views;
 
+import Modelos.Comerciante;
+import Modelos.ItensCarrinho;
+import Modelos.Pedido;
+import Modelos.Produto;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
-
-import Modelos.Comerciante;
-import Modelos.Pedido;
-import Modelos.Produto;
 
 public class ComercianteView {
 
@@ -44,20 +43,10 @@ public class ComercianteView {
             }
 
             switch(choose){
-                case 1:{
-                    GerenciarProdutos();
-                    break;
-                }
-                case 2:{
-                    GerenciarPedidos();
-                    break;
-                }
-                case 0:{
-                    break acoesLoop;
-                }
-                default:{
-                    System.out.println("!! Opção inválida !!");
-                }
+                case 1: GerenciarProdutos(); break;
+                case 2: GerenciarPedidos(); break;
+                case 0: break acoesLoop;
+                default: System.out.println("!! Opção inválida !!");
             }
         }
     }
@@ -83,44 +72,52 @@ public class ComercianteView {
             }
 
             switch(escolhaP){
-                case 1:{
-                    AdicionarProduto();
-                    break;
-                }
-                case 2:{
-                    RemoverProduto();
-                    break;
-                }
-                case 0:{
-                    break gpLoop;
-                }
-                default:{
-                    System.out.println("\n!! Opção invalida !!");
-                }
+                case 1: AdicionarProduto(); break;
+                case 2: RemoverProduto(); break;
+                case 0: break gpLoop;
+                default: System.out.println("\n!! Opção invalida !!");
             }
-
         }
     }
 
     public void AdicionarProduto(){
-        System.out.print("Digite o id -> ");
-        int id = Integer.parseInt(scan.nextLine());
+        int id;
+        String nome;
+        double preco;
 
-        System.out.print("Digite o nome -> ");
-        String nome = scan.nextLine();
-        
-        System.out.print("Digite o preço -> ");
-        double preco = Double.parseDouble(scan.nextLine());
+        while(true){
+            try{
+                System.out.print("Digite o id -> ");
+                id = Integer.parseInt(scan.nextLine());
 
-        Produto p = new Produto(id, nome, preco);
-        comerciante.AdicionarProduto(p);
+                System.out.print("Digite o nome -> ");
+                nome = scan.nextLine();
+
+                System.out.print("Digite o preço -> ");
+                preco = Double.parseDouble(scan.nextLine());
+
+                Produto p = new Produto(id, nome, preco);
+                comerciante.AdicionarProduto(p);
+
+                break;
+            }catch(NumberFormatException e){
+                System.out.println("\n!! Entrada inválida !!\n");
+            }
+        }
     }
 
     public void RemoverProduto(){
-        System.out.print("Digite o id -> ");
-        int id = Integer.parseInt(scan.nextLine());
+        while(true){
+            try{
+                System.out.print("Digite o id -> ");
+                int id = Integer.parseInt(scan.nextLine());
 
-        comerciante.RemoverProduto(id);
+                comerciante.RemoverProduto(id);
+                break;
+            }catch(NumberFormatException e) {
+                System.out.println("\n!! Entrada inválida !!\n");
+            }
+        }
     }
 
     public void GerenciarPedidos(){
@@ -140,6 +137,11 @@ public class ComercianteView {
             System.out.println("Cliente: " + p.getNomeCliente());
             System.out.println("Total R$: " + p.getValorTotal());
             System.out.println("Pagamento: " + p.getFormaPagamento());
+
+            System.out.println("Itens:");
+            for(ItensCarrinho i : p.getItensCarrinho()){
+                System.out.println("= " + i.getQuantidade() + " | " + i.getProduto().getNome());
+            }
         }
 
         try{

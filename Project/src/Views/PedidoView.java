@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
-
-
 public class PedidoView {
 
     Scanner scan = new Scanner(System.in);
@@ -29,7 +27,6 @@ public class PedidoView {
         this.comerciante = c;
         this.clienteView = cv;
     }
-
 
     public void ExibirMenu()
     {
@@ -68,12 +65,8 @@ public class PedidoView {
                     ConfirmarPedido();
                     break;
                 }
-                case 0: {
-                    break escolhaLoop;
-                }
-                default: {
-                    System.out.println("!! Opção inválida !!");
-                }
+                case 0: break escolhaLoop;
+                default: System.out.println("!! Opção inválida !!");
             }
         }
     }
@@ -95,8 +88,7 @@ public class PedidoView {
                 Produto item = comerciante.Busca(codigoItem);
                 if(item != null){
                     carrinho.Adicionar(item, quantidade);
-                }
-                else{
+                }else{
                     System.out.println("! Item invalido !");
                 }
             }catch(NumberFormatException e){
@@ -108,7 +100,6 @@ public class PedidoView {
     public void RemoverItem()
     {
         while(true){
-
             try{
                 System.out.print("Digite o codigo do item para Remover (0 para encerrar) -> ");
                 int codigoItem = Integer.parseInt(scan.nextLine());
@@ -122,12 +113,10 @@ public class PedidoView {
                 if(item != null){
                     if(quantidade <= 0){
                         carrinho.Remover(item);
-                    }
-                    else{
+                    }else{
                         carrinho.RemoverQuantidade(item, quantidade);
                     }
-                }
-                else{
+                }else{
                     System.out.println("! Item invalido !");
                 }
             }catch(NumberFormatException e){

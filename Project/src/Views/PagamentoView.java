@@ -6,7 +6,7 @@ import Modelos.Pagamento;
 public class PagamentoView {
 
     Scanner scan = new Scanner(System.in);
-    private Pagamento pagamento; //trocar para 'new Pagamento()' e remover construtor de new Pagamento()
+    private Pagamento pagamento;
     private boolean confirmado = false;
 
     public PagamentoView() {
@@ -59,39 +59,51 @@ public class PagamentoView {
         String numero;
         int senhaCartao;
 
-        System.out.print("(1) Credito ou (2) Debito -> ");
-        tipo = Integer.parseInt(scan.nextLine());
+        while(true){
+            try{
+                System.out.print("(1) Credito ou (2) Debito -> ");
+                tipo = Integer.parseInt(scan.nextLine());
 
-        System.out.print("Insira numero do cartao -> ");
-        numero = scan.nextLine();
+                System.out.print("Insira numero do cartao -> ");
+                numero = scan.nextLine();
 
-        System.out.print("Senha -> ");
-        senhaCartao = Integer.parseInt(scan.nextLine());
+                System.out.print("Senha -> ");
+                senhaCartao = Integer.parseInt(scan.nextLine());
 
-        confirmado = true;
-        System.out.println("\nPedido realizado com sucesso !!\n");
-        System.out.println("Só aguardar a entrega...");
-        pagamento.DadosCartao(tipo, numero, senhaCartao);    
-        pagamento.setForma("Cartão");
-        return confirmado;
+                confirmado = true;
+                System.out.println("\nPedido realizado com sucesso !!\n");
+                System.out.println("Só aguardar a entrega...");
+                pagamento.DadosCartao(tipo, numero, senhaCartao);
+                pagamento.setForma("Cartão");
+                return confirmado;
+            }catch(NumberFormatException e){
+                System.out.println("\n!! Entrada Inválida !!\n");
+            }
+        }
     }
 
     public boolean Pix(){
         String chave;
         int senhaPix;
 
-        System.out.print("Insira a chave/código PIX -> ");
-        chave = scan.nextLine();
+        while(true){
+            try{
+                System.out.print("Insira a chave/código PIX -> ");
+                chave = scan.nextLine();
 
-        System.out.print("Senha -> ");
-        senhaPix = Integer.parseInt(scan.nextLine());
+                System.out.print("Senha -> ");
+                senhaPix = Integer.parseInt(scan.nextLine());
 
-        confirmado = true;
-        System.out.println("\nPedido realizado com sucesso !!\n");
-        System.out.println("Só aguardar a entrega...");
-        pagamento.DadosPix(chave, senhaPix);
-        pagamento.setForma("Pix");
-        return confirmado;
+                confirmado = true;
+                System.out.println("\nPedido realizado com sucesso !!\n");
+                System.out.println("Só aguardar a entrega...");
+                pagamento.DadosPix(chave, senhaPix);
+                pagamento.setForma("Pix");
+                return confirmado;
+            }catch(NumberFormatException e){
+                System.out.println("\n!! Entrada Inválida !!\n");
+            }
+        }
     }
 
     public Pagamento getPagamento() {

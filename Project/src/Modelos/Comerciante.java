@@ -90,7 +90,7 @@ public class Comerciante {
         if(cardapio.isEmpty()){
             System.out.println("\n!! Cardápio indisponível !!");
         }else{
-            System.out.println("---------- Menu ----------");
+            System.out.println("---------- Menu -----------");
             for(Produto p : cardapio){
                 System.out.print(p.getId() + "# ");
                 System.out.print(p.getNome());
