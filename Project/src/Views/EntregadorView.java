@@ -198,10 +198,10 @@ public class EntregadorView {
             System.out.println("=======================");
             System.out.println("Pedido #" + p.getId());
             System.out.println("Cliente: " + p.getNomeCliente());
-            System.out.println("Valor total: " + p.getValorTotal());
+            System.out.printf("Valor total: R$ %.2f\n", p.getValorTotal());
 
             System.out.println("\nEndereço: ");
-            p.getEnderecoPedido();
+            System.out.println(p.getEndereco().getEnderecoCurto());
         }
 
         try{

@@ -26,6 +26,10 @@ public class Endereco {
         System.out.println("CEP: " + getCep());
     }
 
+    public String getEnderecoCurto(){
+        return getRua() + " " + getNumero() + " " + getBairro() + " " + getCidade() + " "  + getComplemento() + " " + getCep();
+    }
+
     public String getRua(){
         return rua;
     }

@@ -27,6 +27,10 @@ public class Pedido {
         this.endereco.getEndereco();
     }
 
+    public Endereco getEndereco(){
+        return this.endereco;
+    }
+
     public int getId() {return id;}
     public List<ItensCarrinho> getItensCarrinho() {return itensCarrinho;}
     public double getValorTotal() {return valorTotal;}

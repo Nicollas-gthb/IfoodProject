@@ -138,13 +138,23 @@ public class PedidoView {
             itensLista.add(new ItensCarrinho(e.getKey(), e.getValue()));
         }
 
+        Endereco enderecoCliente = clienteView.endereco;
+        Endereco enderecoPedido = new Endereco(
+                enderecoCliente.getRua(),
+                enderecoCliente.getNumero(),
+                enderecoCliente.getCidade(),
+                enderecoCliente.getBairro(),
+                enderecoCliente.getCep(),
+                enderecoCliente.getComplemento()
+        );
+
         pedido = new Pedido(
             GerarIdPedido(),
             itensLista,
             carrinho.Total(),
             clienteView.getNomeCliente(),
             formaPagamento.getForma(),
-            clienteView.endereco
+            enderecoPedido
         );
 
         comerciante.AdicionarPedido(pedido);

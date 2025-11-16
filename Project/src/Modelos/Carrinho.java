@@ -6,8 +6,7 @@ import java.util.HashMap;
 public class Carrinho {
     
     private Map<Produto, Integer> carrinho = new HashMap<>();
-    private double precoTotal;
-    
+
     public void Adicionar(Produto pdt, int qtd)
     {
         if(carrinho.containsKey(pdt))
@@ -62,11 +61,11 @@ public class Carrinho {
             return;
         }
 
-        precoTotal = 0;
-
         System.out.println("Itens no carrinho:\n");
         System.out.println("-- #Id --|- Produto -|-- Qtd --|-- Valor --");
         System.out.println("-".repeat(43)); 
+
+        double totalTemporario = 0;
 
         for (Map.Entry<Produto, Integer> item : carrinho.entrySet()) {
 
@@ -75,16 +74,26 @@ public class Carrinho {
             
             double precoCalculado = produto.getPreco() * quantidade;
             System.out.printf("#%d | %s | %d | %.2f\n", produto.getId(), produto.getNome(), quantidade, precoCalculado);
-            precoTotal += precoCalculado;
+
+            totalTemporario += precoCalculado;
         }
 
         System.out.println("-".repeat(43));    
-        System.out.printf("Total do carrinho: %.2f\n", precoTotal);
+        System.out.printf("Total do carrinho: %.2f\n", totalTemporario);
         System.out.println("-".repeat(43));        
     }
 
     public double Total(){
-        return precoTotal;
+        double total = 0;
+
+        for(Map.Entry<Produto, Integer> item : carrinho.entrySet()){
+            Produto produto = item.getKey();
+            int quantidade = item.getValue();
+
+            total += produto.getPreco() * quantidade;
+        }
+
+        return total;
     }
 
     public void Limpar(){
