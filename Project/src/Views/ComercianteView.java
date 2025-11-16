@@ -13,7 +13,11 @@ public class ComercianteView {
 
     Scanner scan = new Scanner(System.in);
     private Comerciante comerciante;
+
+    @SuppressWarnings("unused")
     private PedidoView pedido;
+    
+    @SuppressWarnings("unused")
     private Map<Produto, Integer> carrinho;
 
     public ComercianteView(Comerciante c){

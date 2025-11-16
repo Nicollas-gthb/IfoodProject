@@ -29,7 +29,6 @@ public class PedidoView {
     }
 
     public void ExibirMenu() {
-        List<Produto> cardapio = comerciante.getCardapio();
         comerciante.ListarCardapio();
         Escolha();
     }
