@@ -12,7 +12,7 @@ public class ItensCarrinho {
     public Produto getProduto() {
         return produto;
     }
-    public int  getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 }

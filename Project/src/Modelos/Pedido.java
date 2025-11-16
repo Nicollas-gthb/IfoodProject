@@ -12,13 +12,19 @@ public class Pedido {
     private final String formaPagamento;
     private boolean concluido = false;
     private boolean entregue = false;
+    private Endereco endereco;
 
-    public Pedido(int id, List<ItensCarrinho> itens,  double valorTotal, String nomeCliente, String formaPagamento) {
+    public Pedido(int id, List<ItensCarrinho> itens,  double valorTotal, String nomeCliente, String formaPagamento, Endereco endereco) {
         this.id = id;
         this.itensCarrinho = itens;
         this.valorTotal = valorTotal;
         this.nomeCliente = nomeCliente;
         this.formaPagamento = formaPagamento;
+        this.endereco = endereco;
+    }
+
+    public void getEnderecoPedido(){
+        this.endereco.getEndereco();
     }
 
     public int getId() {return id;}

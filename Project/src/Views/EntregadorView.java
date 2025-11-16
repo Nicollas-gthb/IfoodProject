@@ -194,7 +194,6 @@ public class EntregadorView {
 
         System.out.println("Pedidos disponiveis para entrega: ");
 
-        //TODO colocar endereço junto aos pedidos
         for(Pedido p : comerciante.getPedidosAprovados()){
             System.out.println("=======================");
             System.out.println("Pedido #" + p.getId());
@@ -202,10 +201,11 @@ public class EntregadorView {
             System.out.println("Valor total: " + p.getValorTotal());
 
             System.out.println("\nEndereço: ");
+            p.getEnderecoPedido();
         }
 
         try{
-            System.out.print("Digite o id do pedido para aceitar/recusar entrega (0 para sair) -> ");
+            System.out.print("\nDigite o id do pedido para aceitar/recusar entrega (0 para sair) -> ");
             id = Integer.parseInt(scan.nextLine());
 
             if(id == 0) return;

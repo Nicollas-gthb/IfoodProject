@@ -143,7 +143,8 @@ public class PedidoView {
             itensLista,
             carrinho.Total(),
             clienteView.getNomeCliente(),
-            formaPagamento.getForma()
+            formaPagamento.getForma(),
+            clienteView.endereco
         );
 
         comerciante.AdicionarPedido(pedido);

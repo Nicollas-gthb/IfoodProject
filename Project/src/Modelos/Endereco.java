@@ -17,6 +17,15 @@ public class Endereco {
         this.complemento = cm;
     }
 
+    public void getEndereco(){
+        System.out.println("Rua: " + getRua());
+        System.out.println("Numero: " + getNumero());
+        System.out.println("Bairro: " + getBairro());
+        System.out.println("Cidade: " + getCidade());
+        System.out.println("Complemento: " + getComplemento());
+        System.out.println("CEP: " + getCep());
+    }
+
     public String getRua(){
         return rua;
     }
