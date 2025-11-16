@@ -138,7 +138,8 @@ public class ComercianteView {
             System.out.println("Total R$: " + p.getValorTotal());
             System.out.println("Pagamento: " + p.getFormaPagamento());
 
-            System.out.println("Itens:");
+            System.out.println("Lista:");
+            System.out.println(" Qtd | Item");
             for(ItensCarrinho i : p.getItensCarrinho()){
                 System.out.println("= " + i.getQuantidade() + " | " + i.getProduto().getNome());
             }

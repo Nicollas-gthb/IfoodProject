@@ -7,6 +7,7 @@ public class Comerciante {
 
     List<Produto> cardapio = new ArrayList<>();
     List<Pedido> pedidos = new ArrayList<>();
+    List<Pedido> pedidosAprovados = new ArrayList<>();
 
     public List<Produto> getCardapio(){
         return cardapio;
@@ -30,6 +31,11 @@ public class Comerciante {
         return pedidosPendentes;
     }
 
+
+    public List<Pedido> getPedidosAprovados(){
+        return pedidosAprovados;
+    }
+
     public Pedido BuscaPedido(int id){
         for(Pedido p : pedidos){
             if(p.getId() == id) return p;
@@ -41,6 +47,8 @@ public class Comerciante {
         Pedido p = BuscaPedido(id);
         if(p != null){
             p.MarcarComoConcluido();
+            pedidosAprovados.add(p);
+            RemoverPedido(p);
             System.out.println("! Pedido #" + id + " marcado como concluido");
         }else{
             System.out.println("\n!! Nenhum pedido foi encontrado !!\n");
@@ -57,11 +65,10 @@ public class Comerciante {
         }
     }
 
-
     public void AdicionarProduto(Produto produto){
         cardapio.add(produto);
         System.out.println("Item adicionado com sucesso");
-        System.out.println(produto.getId() + " | " + produto.getNome() + "\n");
+        System.out.println(produto.getId() + "# | " + produto.getNome() + "\n");
 
         ListarCardapio();
     }
@@ -71,7 +78,7 @@ public class Comerciante {
         if(ProdutoRemovido != null){
             cardapio.remove(ProdutoRemovido);
             System.out.println("Item removido com sucesso!");
-            System.out.println(id + " | " + ProdutoRemovido.getNome() + "\n");
+            System.out.println(id + "# | " + ProdutoRemovido.getNome() + "\n");
 
             ListarCardapio();
         }else{

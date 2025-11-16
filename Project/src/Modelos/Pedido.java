@@ -11,6 +11,7 @@ public class Pedido {
     private String nomeCliente;
     private String formaPagamento;
     private boolean concluido = false;
+    private boolean entregue = false;
 
     public Pedido(int id, List<ItensCarrinho> itens,  double valorTotal, String nomeCliente, String formaPagamento) {
         this.id = id;
@@ -27,8 +28,10 @@ public class Pedido {
     public String getFormaPagamento() {return formaPagamento;}
 
     public boolean Concluido() {return concluido;}
+    public boolean Entregue() {return entregue;}
 
     public void MarcarComoConcluido() {this.concluido = true;}
+    public void MarcarComoEntregue() {this.entregue = true;}
 
     @Override
     public boolean equals(Object o) {

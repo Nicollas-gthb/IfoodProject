@@ -208,7 +208,7 @@ public class ClienteView {
             vaiAlterar = scan.nextLine();
 
             switch(vaiAlterar){
-                case "s": AlterarEndereco(); break;
+                case "s": AlterarEndereco(); break alterLoop;
                 case "n": break alterLoop;
                 default: System.out.println("\n!! Opção invalida !!");
             }

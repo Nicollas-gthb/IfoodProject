@@ -1,12 +1,14 @@
 package Views;
 
 import Modelos.*;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class EntregadorView {
     Scanner scan = new Scanner(System.in);
 
-    Comerciante comercianteV;
+    Comerciante comerciante;
     Entregador entregador;
     Veiculo veiculo;
 
@@ -16,7 +18,7 @@ public class EntregadorView {
     private String vaiAlterar;
 
     public EntregadorView(Comerciante c){
-        this.comercianteV = c;
+        this.comerciante = c;
     }
 
     public boolean PrimeiroAcesso(){
@@ -120,14 +122,14 @@ public class EntregadorView {
             System.out.println("0 - Voltar");
 
             try{
-                System.out.println("Ação -> ");
+                System.out.print("Ação -> ");
                 choose = Integer.parseInt(scan.nextLine());
             }catch(NumberFormatException e){
                 System.out.println("\n!! Entrada inválida !!\n");
             }
 
             switch(choose){
-                case 1: break;
+                case 1: GerenciarPedidos(); break;
                 case 2: MostrarDados(); break;
                 case 0: break acoes;
                 default: System.out.println("\n!! Opção invalida !!\n");
@@ -177,5 +179,83 @@ public class EntregadorView {
 
     public void Ativar(boolean a){
         ativo = a;
+    }
+
+    public void GerenciarPedidos(){
+        int id;
+        String aceitar;
+
+        List<Pedido> pedidosProntos = comerciante.getPedidosAprovados();
+
+        if(pedidosProntos.isEmpty()){
+            System.out.println("\n!! Nenhum pedido foi encontrado !!\n");
+            return;
+        }
+
+        System.out.println("Pedidos disponiveis para entrega: ");
+
+        //TODO colocar endereço junto aos pedidos
+        for(Pedido p : pedidosProntos){
+            System.out.println("=======================");
+            System.out.println("Pedido #" + p.getId());
+            System.out.println("Cliente: " + p.getNomeCliente());
+            System.out.println("Valor total: " + p.getValorTotal());
+
+            System.out.println("\nEndereço: ");
+        }
+
+        try{
+            System.out.print("Digite o id do pedido para aceitar/recusar entrega (0 para sair) -> ");
+            id = Integer.parseInt(scan.nextLine());
+
+            if(id == 0) return;
+
+            System.out.print("Aceitar(a) ou recusar(r)? -> ");
+            aceitar = scan.nextLine();
+        }catch(NumberFormatException e){
+            System.out.println("\n!! Entrada invalida !!\n");
+            return;
+        }
+
+        if(aceitar.equals("a")) AceitarPedido(id);
+        if(aceitar.equals("r")) RecusarPedido(id);
+    }
+
+    public void AceitarPedido(int id){
+        String foiEntregue;
+        Pedido p = BuscaPedido(id);
+        if(p != null){
+            System.out.println("Pedido # " + p.getId() + " aceito, se dirigira para o endereço de entrega !");
+
+            System.out.print("\nPedido foi entregue? (s / n) - >");
+            foiEntregue = scan.nextLine();
+
+            if(foiEntregue.equals("s")) {
+                p.MarcarComoEntregue();
+                comerciante.getPedidosAprovados().remove(p);
+                System.out.println("Pedido entregue com sucesso!");
+            }
+        }else{
+            System.out.println("\n!! Pedido não encontrado !!\n");
+        }
+    }
+
+    public void RecusarPedido(int id){
+        Pedido p = BuscaPedido(id);
+        if(p != null){
+            comerciante.getPedidosAprovados().remove(p);
+            System.out.println("Pedido #" + p.getId() + " recusado com sucesso!\n");
+        }else{
+            System.out.println("\n!! Pedido não encontrado !!\n");
+        }
+    }
+
+    public Pedido BuscaPedido(int id){
+        for(Pedido p : comerciante.getPedidosAprovados()){
+            if(p.getId() == id){
+                return p;
+            }
+        }
+        return null;
     }
 }

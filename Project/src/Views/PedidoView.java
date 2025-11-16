@@ -28,15 +28,13 @@ public class PedidoView {
         this.clienteView = cv;
     }
 
-    public void ExibirMenu()
-    {
+    public void ExibirMenu() {
         List<Produto> cardapio = comerciante.getCardapio();
         comerciante.ListarCardapio();
         Escolha();
     }
 
-    public void Escolha()
-    {
+    public void Escolha() {
         int option;
         escolhaLoop: while(true){
             System.out.println("\n= Opções:");
@@ -71,8 +69,7 @@ public class PedidoView {
         }
     }
 
-    public void AdicionarItem()
-    {
+    public void AdicionarItem() {
         int codigoItem;
         int quantidade;
         while(true){
@@ -97,8 +94,7 @@ public class PedidoView {
         }
     }
 
-    public void RemoverItem()
-    {
+    public void RemoverItem() {
         while(true){
             try{
                 System.out.print("Digite o codigo do item para Remover (0 para encerrar) -> ");
