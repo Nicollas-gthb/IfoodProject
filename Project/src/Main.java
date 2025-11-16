@@ -1,5 +1,7 @@
 import Views.ClienteView;
 import Views.ComercianteView;
+import Views.EntregadorView;
+
 import Modelos.Comerciante;
 
 import java.util.Scanner;
@@ -10,8 +12,9 @@ public class Main {
         Scanner scan = new Scanner(System.in);
 
         Comerciante comerciante = new Comerciante();
-        ClienteView cliente = new ClienteView(comerciante);
+        ClienteView clienteV = new ClienteView(comerciante);
         ComercianteView comercianteV = new ComercianteView(comerciante);
+        EntregadorView entregadorV = new EntregadorView(comerciante);
 
         //variavel de controle sobre o cadastro do usuario
         boolean cadastroAtivo = true;
@@ -37,19 +40,24 @@ public class Main {
                 case 1: {
                     System.out.println("Perfil Cliente");
 
-                    cliente.Ativo(cadastroAtivo);
-                    
+                    clienteV.Ativar(cadastroAtivo);
                     if(cadastroAtivo)
                     {
-                        if(cliente.PrimeiroAcesso()) cliente.CadastrarConta();
+                        if(clienteV.PrimeiroAcesso()) clienteV.CadastrarConta();
                     }
 
-                    cliente.Acoes();
-                    if(cliente.Voltar()) break;
-
+                    clienteV.Acoes();
+                    break;
                 }
                 case 2: {
                     System.out.println("Perfil Entregador");
+
+                    entregadorV.Ativar(cadastroAtivo);
+                    if(cadastroAtivo){
+                        if(entregadorV.PrimeiroAcesso()) entregadorV.CadastrarConta();
+                    }
+
+                    entregadorV.Acoes();
                     break;
                 }
                 case 3: {

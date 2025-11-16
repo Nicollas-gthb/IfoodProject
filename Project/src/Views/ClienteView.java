@@ -30,14 +30,12 @@ public class ClienteView {
     }
 
     //Conferir primeiro acesso
-    public boolean PrimeiroAcesso()
-    {
+    public boolean PrimeiroAcesso() {
         return naoCadastrou;
     }
 
     //Inserir dados de cadastro
-    public void CadastrarConta()
-    {
+    public void CadastrarConta() {
         naoCadastrou = false;
         System.out.println("\n= Conta nova");
 
@@ -114,10 +112,8 @@ public class ClienteView {
         String novaData = scan.nextLine();
         cliente.setDataNasc(novaData);
     }
-    
-    
-    public void MostrarEndereco()
-    {
+
+    public void MostrarEndereco() {
         System.out.println("Rua: " + endereco.getRua());
         System.out.println("N°: " + endereco.getNumero());
         System.out.println("Cidade: " + endereco.getCidade());
@@ -125,8 +121,7 @@ public class ClienteView {
         System.out.println("CEP: " + endereco.getCep());
         System.out.println("Complemento: " + endereco.getComplemento());
     }
-    public void AlterarEndereco()
-    {
+    public void AlterarEndereco() {
         System.out.print("Nova rua -> ");
         String novaRua = scan.nextLine();
         endereco.setRua(novaRua);
@@ -153,8 +148,7 @@ public class ClienteView {
     }
 
     //Escolhas no perfil de cliente
-    public void Acoes()
-    {
+    public void Acoes() {
         vaiVoltar = false;
         acoesLoop: while(true){
 
@@ -170,34 +164,18 @@ public class ClienteView {
             }catch(NumberFormatException e){
                 System.out.println("\n!! Entrada invalida !!\n");
             }
-                
+
             switch(choose)
             {
-                case 1: {
-                    pedido.ExibirMenu(); 
-                    if(vaiVoltar) break acoesLoop;
-                    break;
-                }
+                case 1: pedido.ExibirMenu(); break;
                 case 2: MostrarDados(); break;
-                case 0: {
-                    vaiVoltar = true; 
-                    break acoesLoop;
-                }
-                default:{
-                    System.out.println("\n!! Opa.. ação inválida !!");
-                }
+                case 0: break acoesLoop;
+                default: System.out.println("\n!! Opa.. ação inválida !!");
             }
         }
     }
 
-    //Exibir dados cadastrados
-    public void Ativo(boolean condition)
-    {
-        ativo = condition;
-    }
-
-    public void MostrarDados()
-    {
+    public void MostrarDados() {
         if(!ativo){
             System.out.println("!! Dados desativados para manutenção !!");
         }else{
@@ -220,9 +198,8 @@ public class ClienteView {
         }
     }
 
-    //Altrar dados cadastrados
-    public void AlterarDados()
-    {
+    //Alterar dados cadastrados
+    public void AlterarDados() {
         System.out.println("= Insira os novos dados: ");
         AlterarInfo();
 
@@ -239,10 +216,8 @@ public class ClienteView {
         System.out.println("Dados atualizados com sucesso!");
     }
 
-    //Ação de voltar
-    public boolean Voltar()
-    {
-        return vaiVoltar;
+    public void Ativar(boolean a){
+        ativo = a;
     }
 
     public String getNomeCliente() {
