@@ -195,7 +195,7 @@ public class EntregadorView {
         System.out.println("Pedidos disponiveis para entrega: ");
 
         //TODO colocar endereço junto aos pedidos
-        for(Pedido p : pedidosProntos){
+        for(Pedido p : comerciante.getPedidosAprovados()){
             System.out.println("=======================");
             System.out.println("Pedido #" + p.getId());
             System.out.println("Cliente: " + p.getNomeCliente());
@@ -227,7 +227,7 @@ public class EntregadorView {
         if(p != null){
             System.out.println("Pedido # " + p.getId() + " aceito, se dirigira para o endereço de entrega !");
 
-            System.out.print("\nPedido foi entregue? (s / n) - >");
+            System.out.print("\nPedido foi entregue? (s / n) -> ");
             foiEntregue = scan.nextLine();
 
             if(foiEntregue.equals("s")) {

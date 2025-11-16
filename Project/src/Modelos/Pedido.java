@@ -5,11 +5,11 @@ import java.util.Objects;
 
 public class Pedido {
 
-    private int id;
-    private List<ItensCarrinho> itensCarrinho;
-    private double valorTotal;
-    private String nomeCliente;
-    private String formaPagamento;
+    private final int id;
+    private final List<ItensCarrinho> itensCarrinho;
+    private final double valorTotal;
+    private final String nomeCliente;
+    private final String formaPagamento;
     private boolean concluido = false;
     private boolean entregue = false;
 

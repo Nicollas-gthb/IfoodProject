@@ -31,7 +31,6 @@ public class Comerciante {
         return pedidosPendentes;
     }
 
-
     public List<Pedido> getPedidosAprovados(){
         return pedidosAprovados;
     }

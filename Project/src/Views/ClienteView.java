@@ -14,7 +14,6 @@ public class ClienteView {
     Endereco endereco;
 
     private int choose;
-    private boolean vaiVoltar = false;
     private boolean naoCadastrou = true;
     private boolean ativo;
     private String vaiAlterar;
@@ -22,11 +21,6 @@ public class ClienteView {
     //Construtor para inicializar 'PedidoView pedido'
     public ClienteView(Comerciante c) {
         this.pedido = new PedidoView(c, this);
-    }
-
-    //setter para o vaiVoltar
-    public void setVaiVoltar(boolean valor){
-        vaiVoltar = valor;
     }
 
     //Conferir primeiro acesso
@@ -149,7 +143,6 @@ public class ClienteView {
 
     //Escolhas no perfil de cliente
     public void Acoes() {
-        vaiVoltar = false;
         acoesLoop: while(true){
 
             System.out.println("\n= Opções disponíveis");
@@ -163,6 +156,7 @@ public class ClienteView {
                 choose = Integer.parseInt(scan.nextLine());
             }catch(NumberFormatException e){
                 System.out.println("\n!! Entrada invalida !!\n");
+                continue;
             }
 
             switch(choose)
