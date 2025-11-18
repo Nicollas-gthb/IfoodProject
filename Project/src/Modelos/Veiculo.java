@@ -1,6 +1,7 @@
 package Modelos;
 
 public class Veiculo {
+    private int id;
     private String placa;
     private String ano;
     private String modelo;
@@ -10,6 +11,16 @@ public class Veiculo {
         this.ano = ano;
         this.modelo = modelo;
     }
+
+    public Veiculo(int id, String placa, String ano, String modelo){
+        this.id = id;
+        this.placa = placa;
+        this.ano = ano;
+        this.modelo = modelo;
+    }
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
     public String getPlaca() {return placa;}
     public void setPlaca(String placa) {this.placa = placa;}

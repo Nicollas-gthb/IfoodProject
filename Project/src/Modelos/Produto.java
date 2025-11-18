@@ -14,6 +14,12 @@ public class Produto {
         this.preco = preco;
     }
 
+    public Produto(String nome, Double preco)
+    {
+        this.nome = nome;
+        this.preco = preco;
+    }
+
     public Integer getId()
     {
         return id;

@@ -1,6 +1,7 @@
 package Modelos;
 
 public class Endereco {
+    private int id;
     private String rua;
     private String numero;
     private String cidade;
@@ -9,6 +10,16 @@ public class Endereco {
     private String complemento; 
 
     public Endereco(String r, String n, String c, String b, String cp, String cm){
+        this.rua = r;
+        this.numero = n;
+        this.cidade = c;
+        this.bairro = b;
+        this.cep = cp;
+        this.complemento = cm;
+    }
+
+    public Endereco(int id, String r, String n, String c, String b, String cp, String cm){
+        this.id = id;
         this.rua = r;
         this.numero = n;
         this.cidade = c;
@@ -29,6 +40,9 @@ public class Endereco {
     public String getEnderecoCurto(){
         return getRua() + " " + getNumero() + " " + getBairro() + " " + getCidade() + " "  + getComplemento() + " " + getCep();
     }
+
+    public int getId(){return id;}
+    public void setId(int id) {this.id = id;}
 
     public String getRua(){
         return rua;

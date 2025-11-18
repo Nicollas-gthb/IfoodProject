@@ -5,22 +5,35 @@ import java.util.Objects;
 
 public class Pedido {
 
-    private final int id;
-    private final List<ItensCarrinho> itensCarrinho;
-    private final double valorTotal;
-    private final String nomeCliente;
-    private final String formaPagamento;
+    private int id;
+    private List<ItensCarrinho> itensCarrinho;
+    private double valorTotal;
+    private String nomeCliente;
+    private String formaPagamento;
     private boolean concluido = false;
     private boolean entregue = false;
     private Endereco endereco;
 
-    public Pedido(int id, List<ItensCarrinho> itens,  double valorTotal, String nomeCliente, String formaPagamento, Endereco endereco) {
+    private String status;
+
+    public Pedido(List<ItensCarrinho> itens,  double valorTotal, String nomeCliente, String formaPagamento, Endereco endereco) {
+        this.itensCarrinho = itens;
+        this.valorTotal = valorTotal;
+        this.nomeCliente = nomeCliente;
+        this.formaPagamento = formaPagamento;
+        this.endereco = endereco;
+
+        this.status = "Pendente";
+    }
+
+    public Pedido(int id, List<ItensCarrinho> itens, double valorTotal, String nomeCliente, String formaPagamento, Endereco endereco, String status) {
         this.id = id;
         this.itensCarrinho = itens;
         this.valorTotal = valorTotal;
         this.nomeCliente = nomeCliente;
         this.formaPagamento = formaPagamento;
         this.endereco = endereco;
+        this.status = status;
     }
 
     public void getEnderecoPedido(){
@@ -32,16 +45,21 @@ public class Pedido {
     }
 
     public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
     public List<ItensCarrinho> getItensCarrinho() {return itensCarrinho;}
     public double getValorTotal() {return valorTotal;}
     public String getNomeCliente() {return nomeCliente;}
     public String getFormaPagamento() {return formaPagamento;}
 
-    public boolean Concluido() {return concluido;}
-    public boolean Entregue() {return entregue;}
 
+    public boolean Concluido() {return concluido;}
     public void MarcarComoConcluido() {this.concluido = true;}
+
+    public boolean Entregue() {return entregue;}
     public void MarcarComoEntregue() {this.entregue = true;}
+
+    public String getStatus(){return status;}
+    public void setStatus(String status){this.status = status;}
 
     @Override
     public boolean equals(Object o) {

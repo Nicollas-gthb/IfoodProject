@@ -1,6 +1,7 @@
 package Views;
 
 import Modelos.*;
+import DAO.EnderecoDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,11 @@ public class PedidoView {
     Cliente cliente;
     Pagamento formaPagamento;
 
+    private final EnderecoDAO enderecoD = new EnderecoDAO();
     private final Comerciante comerciante;
     private final ClienteView clienteView;
     private boolean pagou;
-    private int contadorId = 1;
+
     ComercianteView cmv = new ComercianteView(this);
 
     public PedidoView(Comerciante c, ClienteView cv) {
@@ -147,8 +149,21 @@ public class PedidoView {
                 enderecoCliente.getComplemento()
         );
 
+        int idEndereco = enderecoD.Create(enderecoPedido);
+        if (idEndereco == -1) {
+            System.out.println("Falha ao salvar endereço do pedido. Cancelando.");
+            return;
+        }
+        enderecoPedido.setId(idEndereco); // Define o ID gerado no objeto Endereco do Pedido
+
+        // 4. Obtém o ID do Cliente logado
+        int idCliente = clienteView.getIdCliente();
+        if (idCliente == -1) {
+            System.out.println("Erro: Cliente não está logado/cadastrado. Cancelando pedido.");
+            return;
+        }
+
         pedido = new Pedido(
-            GerarIdPedido(),
             itensLista,
             carrinho.Total(),
             clienteView.getNomeCliente(),
@@ -156,12 +171,8 @@ public class PedidoView {
             enderecoPedido
         );
 
-        comerciante.AdicionarPedido(pedido);
+        comerciante.AdicionarPedido(pedido, idCliente, idEndereco);
         System.out.println("Pedido enviado ao comerciante!\n");
         carrinho.Limpar();
-    }
-
-    public int GerarIdPedido(){
-        return contadorId++;
     }
 }

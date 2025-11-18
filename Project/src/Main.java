@@ -2,6 +2,7 @@ import Views.ClienteView;
 import Views.ComercianteView;
 import Views.EntregadorView;
 
+import DAO.ConexaoDB;
 import Modelos.Comerciante;
 
 import java.util.Scanner;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        ConexaoDB.testarConexao();
         Scanner scan = new Scanner(System.in);
 
         Comerciante comerciante = new Comerciante();
@@ -39,25 +41,44 @@ public class Main {
             switch (option) {
                 case 1: {
                     System.out.println("Perfil Cliente");
-
                     clienteV.Ativar(cadastroAtivo);
-                    if(cadastroAtivo)
-                    {
-                        if(clienteV.PrimeiroAcesso()) clienteV.CadastrarConta();
+
+                    boolean logado = false;
+
+                    if(clienteV.PrimeiroAcesso()) {
+                        // Se naoCadastrou == true, faz o cadastro (e fica logado)
+                        clienteV.CadastrarConta();
+                        logado = true;
+                    } else {
+                        // Se naoCadastrou == false, tenta fazer o login
+                        logado = clienteV.FazerLogin();
                     }
 
-                    clienteV.Acoes();
+                    // Só prossegue se o login/cadastro for bem-sucedido
+                    if (logado) {
+                        clienteV.Acoes();
+                    }
                     break;
                 }
                 case 2: {
                     System.out.println("Perfil Entregador");
-
                     entregadorV.Ativar(cadastroAtivo);
-                    if(cadastroAtivo){
-                        if(entregadorV.PrimeiroAcesso()) entregadorV.CadastrarConta();
+
+                    boolean logado = false;
+
+                    if(entregadorV.PrimeiroAcesso()) {
+                        // Se naoCadastrou == true, faz o cadastro (e fica logado)
+                        entregadorV.CadastrarConta();
+                        logado = true;
+                    } else {
+                        // Se naoCadastrou == false, tenta fazer o login
+                        logado = entregadorV.FazerLogin();
                     }
 
-                    entregadorV.Acoes();
+                    // Só prossegue se o login/cadastro for bem-sucedido
+                    if (logado) {
+                        entregadorV.Acoes();
+                    }
                     break;
                 }
                 case 3: {
@@ -79,5 +100,3 @@ public class Main {
         System.out.println("Fim do teste!");
     }
 }
-
-//TODO implementar conexão banco de dados

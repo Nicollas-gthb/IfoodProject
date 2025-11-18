@@ -1,6 +1,7 @@
 package Modelos;
 
 public class Pagamento {
+    private int id;
     private int tipo;
     private String numero;
     private int senhaCartao;
@@ -20,6 +21,8 @@ public class Pagamento {
         this.chave = c;
         this.senhaPix = sp;
     }
+
+
 
 
     public int getTipo(){

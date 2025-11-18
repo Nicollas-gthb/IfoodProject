@@ -1,6 +1,9 @@
 package Views;
 
 import Modelos.*;
+import DAO.EntregadorDAO;
+import DAO.VeiculoDAO;
+import DAO.PedidoDAO;
 
 import java.util.List;
 import java.util.Scanner;
@@ -16,6 +19,9 @@ public class EntregadorView {
     private boolean naoCadastrou = true;
     private boolean ativo;
     private String vaiAlterar;
+    private final EntregadorDAO entregadorD = new EntregadorDAO();
+    private final VeiculoDAO veiculoD = new VeiculoDAO();
+    private final PedidoDAO pedidoD = new PedidoDAO();
 
     public EntregadorView(Comerciante c){
         this.comerciante = c;
@@ -25,10 +31,41 @@ public class EntregadorView {
         return naoCadastrou;
     }
 
-    public void CadastrarConta() {
-        naoCadastrou = false;
-        System.out.println("\n= Conta nova");
+    public boolean FazerLogin() {
+        System.out.println("\n= Login Entregador");
+        System.out.print("Email -> ");
+        String email = scan.nextLine();
+        System.out.print("Senha -> ");
+        String senha = scan.nextLine();
 
+        // 1. Busca o entregador no DB pelo email
+        Entregador entregadorDoDB = entregadorD.selectEmail(email);
+
+        // 2. Verifica se o entregador existe e se a senha está correta
+        if (entregadorDoDB != null && entregadorDoDB.getSenha().equals(senha)) {
+            this.entregador = entregadorDoDB; // Seta o objeto Entregador logado
+
+            // 3. Busca o Veículo associado (USANDO ID VEÍCULO DO ENTREGADOR)
+            if (entregador.getIdVeiculo() != 0) {
+                this.veiculo = veiculoD.SelectId(entregador.getIdVeiculo());
+                if (this.veiculo == null) {
+                    System.out.println("AVISO: Veículo associado (ID: " + entregador.getIdVeiculo() + ") não encontrado no DB.");
+                }
+            }
+
+            System.out.println("\nLogin do Entregador " + entregador.getNome() + " realizado com sucesso!");
+            naoCadastrou = false;
+            return true;
+        } else {
+            System.out.println("\n!! Email ou senha inválidos !!\n");
+            return false;
+        }
+    }
+
+    public void CadastrarConta() {
+        System.out.println("\n= Conta nova - Entregador");
+
+        // 1. DADOS PESSOAIS
         System.out.print("Nome -> ");
         String nome = scan.nextLine();
 
@@ -36,7 +73,7 @@ public class EntregadorView {
         String telefone = scan.nextLine();
 
         System.out.print("Data de Nascimento -> ");
-        String data = scan.nextLine();
+        String data = scan.nextLine(); // Manter como String, conforme o modelo
 
         System.out.print("Email -> ");
         String email = scan.nextLine();
@@ -45,6 +82,7 @@ public class EntregadorView {
         String senha = scan.nextLine();
 
 
+        // 2. DADOS DO VEÍCULO
         System.out.println("\n= Defina um veiculo:");
 
         System.out.print("Placa -> ");
@@ -56,11 +94,37 @@ public class EntregadorView {
         System.out.print("Modelo -> ");
         String modelo = scan.nextLine();
 
+        // FLUXO DE PERSISTÊNCIA:
 
-        System.out.println("\nCadastro concluído!");
+        // A. Cria e salva o Veículo no DB (VeiculoDAO)
+        this.veiculo = new Veiculo(placa, ano, modelo);
+        int idVeiculo = veiculoD.Create(this.veiculo); // Usa o VeiculoDAO
 
-        entregador = new Entregador(nome, telefone, data, email, senha);
-        veiculo = new Veiculo(placa, ano, modelo);
+        if (idVeiculo != -1) {
+            this.veiculo.setId(idVeiculo);
+
+            // B. Cria e salva o Entregador, usando o ID do Veículo (EntregadorDAO)
+            this.entregador = new Entregador(nome, telefone, data, email, senha, this.veiculo);
+            int idEntregador = entregadorD.create(this.entregador); // Usa o EntregadorDAO
+
+            if (idEntregador != -1) {
+                this.entregador.setId(idEntregador);
+                System.out.println("\nEntregador e Veículo cadastrados com sucesso! [ID #"+ idEntregador +"]");
+                naoCadastrou = false; // Indica sucesso
+            } else {
+                // Caso falhe o Entregador, idealmente o Veículo deveria ser deletado (Rollback)
+                // Para simplificar, exibiremos a falha.
+                System.out.println("\n!! Falha ao cadastrar entregador. Email pode já existir ou erro no DB. !!");
+                // Tenta remover o veículo "órfão"
+                if (veiculoD.Delete(idVeiculo)) {
+                    System.out.println("Veículo criado (ID #"+ idVeiculo +") foi removido.");
+                }
+                naoCadastrou = true;
+            }
+        } else {
+            System.out.println("\n!! Falha ao cadastrar veículo. Placa pode já existir ou erro no DB. !!");
+            naoCadastrou = true;
+        }
     }
 
     public void MostrarInfo(){
@@ -91,6 +155,12 @@ public class EntregadorView {
         System.out.print("Nova senha -> ");
         String novaSenha = scan.nextLine();
         entregador.setSenha(novaSenha);
+
+        if(entregadorD.update(entregador)){
+            System.out.println("\n[SISTEMA] Dados do perfil atualizados com sucesso no DB.");
+        }else{
+            System.out.println("\n[SISTEMA] Falha ao atualizar os Dados do perfil no DB.");
+        }
     }
 
     public void MostrarVeiculo(){
@@ -99,6 +169,11 @@ public class EntregadorView {
         System.out.println("Modelo: " + veiculo.getModelo());
     }
     public void AlterarVeiculo(){
+        if (veiculo == null || veiculo.getId() == 0) {
+            System.out.println("!! Não é possível alterar: Veículo não carregado ou sem ID. !!");
+            return;
+        }
+
         System.out.print("Nova placa -> ");
         String novaPlaca = scan.nextLine();
         veiculo.setPlaca(novaPlaca);
@@ -110,6 +185,12 @@ public class EntregadorView {
         System.out.print("Novo modelo -> ");
         String novoModelo = scan.nextLine();
         veiculo.setModelo(novoModelo);
+
+        if(veiculoD.Update(veiculo)){
+            System.out.println("\n[SISTEMA] Veiculo atualizado com sucesso no DB.");
+        }else{
+            System.out.println("\n[SISTEMA] Falha ao atualizar o Veiculo no DB.");
+        }
     }
 
     public void Acoes(){
@@ -181,81 +262,98 @@ public class EntregadorView {
         ativo = a;
     }
 
-    public void GerenciarPedidos(){
-        int id;
-        String aceitar;
+    public void GerenciarPedidos() {
+        // Busca a lista atualizada de pedidos aprovados no DB (via Comerciante)
+        List<Pedido> aprovados = comerciante.getPedido();
 
-        List<Pedido> pedidosProntos = comerciante.getPedidosAprovados();
-
-        if(pedidosProntos.isEmpty()){
-            System.out.println("\n!! Nenhum pedido foi encontrado !!\n");
+        if (aprovados.isEmpty()) {
+            System.out.println("\n!! Nenhum pedido aprovado encontrado !!\n");
             return;
         }
 
-        System.out.println("Pedidos disponiveis para entrega: ");
-
-        for(Pedido p : comerciante.getPedidosAprovados()){
-            System.out.println("=======================");
-            System.out.println("Pedido #" + p.getId());
+        System.out.println("= Pedidos disponíveis para entrega:");
+        for (Pedido p : aprovados) {
+            System.out.println("================================");
+            System.out.println("Pedido # " + p.getId()); // ID do DB
             System.out.println("Cliente: " + p.getNomeCliente());
-            System.out.printf("Valor total: R$ %.2f\n", p.getValorTotal());
-
-            System.out.println("\nEndereço: ");
-            System.out.println(p.getEndereco().getEnderecoCurto());
+            System.out.println("Destino: " + p.getEndereco().getEnderecoCurto());
+            // Você pode adicionar mais detalhes do pedido se quiser
         }
+        System.out.println("================================");
 
-        try{
-            System.out.print("\nDigite o id do pedido para aceitar/recusar entrega (0 para sair) -> ");
+        // --- RESTO DO MÉT.ODO: Solicitação da Ação ---
+
+        int id;
+        String aceitar;
+
+        try {
+            System.out.print("\nDigite o ID do pedido para aceitar/recusar (0 para voltar) -> ");
             id = Integer.parseInt(scan.nextLine());
 
-            if(id == 0) return;
+            if (id == 0) return; // Retorna se for 0
 
             System.out.print("Aceitar(a) ou recusar(r)? -> ");
             aceitar = scan.nextLine();
-        }catch(NumberFormatException e){
+
+        } catch (NumberFormatException e) {
             System.out.println("\n!! Entrada invalida !!\n");
             return;
         }
 
-        if(aceitar.equals("a")) AceitarPedido(id);
-        if(aceitar.equals("r")) RecusarPedido(id);
+        if (aceitar.equals("a")) AceitarPedido(id);
+        if (aceitar.equals("r")) RecusarPedido(id);
     }
 
-    public void AceitarPedido(int id){
+    public void AceitarPedido(int id) {
         String foiEntregue;
         Pedido p = BuscaPedido(id);
-        if(p != null){
-            System.out.println("Pedido # " + p.getId() + " aceito, se dirigira para o endereço de entrega !");
 
-            System.out.print("\nPedido foi entregue? (s / n) -> ");
-            foiEntregue = scan.nextLine();
+        if (p != null) {
+            // 1. Mudar status para 'Em Entrega' no DB
+            if (pedidoD.updateStatus(id, "Em Entrega")) {
+                System.out.println("Pedido # " + id + " aceito! Status atualizado para 'Em Entrega'.");
+                System.out.println("Dirija-se para o endereço de entrega!");
 
-            if(foiEntregue.equals("s")) {
-                p.MarcarComoEntregue();
-                comerciante.getPedidosAprovados().remove(p);
-                System.out.println("Pedido entregue com sucesso!");
+                System.out.print("\nPedido foi entregue? (s / n) -> ");
+                foiEntregue = scan.nextLine();
+
+                if (foiEntregue.equals("s")) {
+                    // 2. Mudar status para 'Entregue' no DB
+                    if (pedidoD.updateStatus(id, "Entregue")) {
+                        // Não precisamos remover da lista do Comerciante,
+                        // pois a próxima busca por 'Aprovados' não o trará.
+                        System.out.println("Pedido entregue com sucesso! Status atualizado para 'Entregue'.");
+                    } else {
+                        System.out.println("!! Falha ao marcar pedido como Entregue no DB !!");
+                    }
+                }
+            } else {
+                System.out.println("!! Falha ao aceitar pedido no DB. Tente novamente. !!");
             }
-        }else{
+        } else {
             System.out.println("\n!! Pedido não encontrado !!\n");
         }
     }
 
-    public void RecusarPedido(int id){
+    public void RecusarPedido(int id) {
         Pedido p = BuscaPedido(id);
-        if(p != null){
-            comerciante.getPedidosAprovados().remove(p);
-            System.out.println("Pedido #" + p.getId() + " recusado com sucesso!\n");
-        }else{
+
+        if (p != null) {
+            // Atualiza status para 'Recusado pelo Entregador' no DB
+            if (pedidoD.updateStatus(id, "Recusado pelo Entregador")) {
+                // Não é necessário remover da lista em memória (comerciante.getPedidosAprovados().remove(p);)
+                // O DB já garante que ele não será buscado novamente se o Comerciante.getPedidosAprovados()
+                // buscar apenas status 'Aprovado'.
+                System.out.println("Pedido #" + id + " recusado com sucesso! Status atualizado no DB.");
+            } else {
+                System.out.println("!! Falha ao recusar pedido no DB. Tente novamente. !!");
+            }
+        } else {
             System.out.println("\n!! Pedido não encontrado !!\n");
         }
     }
 
     public Pedido BuscaPedido(int id){
-        for(Pedido p : comerciante.getPedidosAprovados()){
-            if(p.getId() == id){
-                return p;
-            }
-        }
-        return null;
+        return pedidoD.selectById(id);
     }
 }

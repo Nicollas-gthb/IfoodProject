@@ -91,17 +91,22 @@ public class ComercianteView {
 
         while(true){
             try{
-                System.out.print("Digite o id -> ");
-                id = Integer.parseInt(scan.nextLine());
 
-                System.out.print("Digite o nome -> ");
+                System.out.print("Nome do produto -> ");
                 nome = scan.nextLine();
 
-                System.out.print("Digite o preço -> ");
+                System.out.print("Preço do produto -> ");
+                // Usar Double.parseDouble para garantir que o input é um número decimal
                 preco = Double.parseDouble(scan.nextLine());
 
-                Produto p = new Produto(id, nome, preco);
-                comerciante.AdicionarProduto(p);
+                // 1. Cria o objeto Produto (sem ID)
+                Produto novoProduto = new Produto(nome, preco);
+
+                // 2. Chama o méto.do do Comerciante, que agora usa o ProdutoDAO para salvar.
+                comerciante.AdicionarProduto(novoProduto);
+
+                // 3. Lista o cardápio (buscando a lista atualizada do DB).
+                comerciante.ListarCardapio();
 
                 break;
             }catch(NumberFormatException e){
@@ -141,6 +146,9 @@ public class ComercianteView {
             System.out.println("Cliente: " + p.getNomeCliente());
             System.out.println("Total R$: " + p.getValorTotal());
             System.out.println("Pagamento: " + p.getFormaPagamento());
+
+            System.out.println("Endereço de Entrega:");
+            p.getEnderecoPedido();
 
             System.out.println("Lista:");
             System.out.println("Qtd | Item");

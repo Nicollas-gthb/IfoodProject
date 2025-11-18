@@ -1,54 +1,73 @@
 package Modelos;
 
 import java.util.List;
-import java.util.ArrayList;
+import DAO.ProdutoDAO;
+import DAO.PedidoDAO;
 
 public class Comerciante {
 
-    List<Produto> cardapio = new ArrayList<>();
-    List<Pedido> pedidos = new ArrayList<>();
-    List<Pedido> pedidosAprovados = new ArrayList<>();
+    private final ProdutoDAO produtoD = new ProdutoDAO();
+    private final PedidoDAO pedidoD = new PedidoDAO();
+
+    public Comerciante() {}
 
     public List<Produto> getCardapio(){
-        return cardapio;
+        return produtoD.SelectAll();
     }
 
-    public void AdicionarPedido(Pedido pedido){
-        pedidos.add(pedido);
-        System.out.println("\nNovo pedido adicionado com sucesso !");
-    }
-
-    public void RemoverPedido(Pedido pedido){
-        pedidos.remove(pedido);
+    public List<Pedido> getPedido(){
+        return pedidoD.selectStatus("Aprovado");
     }
 
     public List<Pedido> getPedidosPendentes(){
-        List<Pedido> pedidosPendentes = new ArrayList<>();
-        for(Pedido p : pedidos){
-            if(!p.Concluido()) pedidosPendentes.add(p);
-        }
-
-        return pedidosPendentes;
+        // Usa o PedidoDAO para buscar pedidos com o status "Pendente" (ou como está na sua lógica DAO)
+        return pedidoD.selectStatus("Pendente");
     }
 
-    public List<Pedido> getPedidosAprovados(){
-        return pedidosAprovados;
+    public void AdicionarPedido(Pedido pedido, int idCliente, int idEndereco){
+
+        int newId = pedidoD.create(pedido, idCliente, idEndereco);
+
+        if (newId != -1) {
+            pedido.setId(newId); // <-- O ID GERADO PELO BANCO É SETADO NO OBJETO
+            pedido.setStatus("Pendente"); // Garante o status no objeto
+            System.out.println("\nNovo pedido adicionado com sucesso ao DB! (ID #" + newId + ")");
+        } else {
+            System.err.println("\nFalha ao adicionar pedido ao DB.");
+        }
+    }
+
+    public void RemoverPedido(Pedido pedido){
+        pedidoD.delete(pedido.getId());
+    }
+
+    public boolean FinalizarPedido(int idPedido, String novoStatus) {
+        // O PedidoDAO cuidará de atualizar o status no banco
+        boolean sucesso = pedidoD.updateStatus(idPedido, novoStatus);
+
+        if(sucesso){
+            System.out.println("Status do pedido #" + idPedido + " alterado para: " + novoStatus);
+        } else {
+            System.err.println("Falha ao atualizar status do pedido no DB.");
+        }
+        return sucesso;
     }
 
     public Pedido BuscaPedido(int id){
-        for(Pedido p : pedidos){
-            if(p.getId() == id) return p;
-        }
-        return null;
+        return pedidoD.selectById(id);
     }
 
     public void AprovarPedido(int id){
         Pedido p = BuscaPedido(id);
         if(p != null){
-            p.MarcarComoConcluido();
-            pedidosAprovados.add(p);
-            RemoverPedido(p);
-            System.out.println("! Pedido #" + id + " marcado como concluido");
+            // Atualiza o status no BANCO
+            boolean sucesso = pedidoD.updateStatus(id, "Aprovado");
+            if (sucesso) {
+                p.setStatus("Aprovado"); // Atualiza o objeto na memória (se necessário)
+                System.out.println("Pedido #" + id + " aprovado!");
+            } else {
+                System.out.println("Falha ao aprovar pedido no DB.");
+            }
         }else{
             System.out.println("\n!! Nenhum pedido foi encontrado !!\n");
         }
@@ -57,53 +76,57 @@ public class Comerciante {
     public void RecusarPedido(int id){
         Pedido p = BuscaPedido(id);
         if(p != null){
-            RemoverPedido(p);
-            System.out.println("! Pedido #" + id + " recusado");
+            // Atualiza o status no BANCO
+            boolean sucesso = pedidoD.updateStatus(id, "Recusado");
+            if (sucesso) {
+                p.setStatus("Recusado"); // Atualiza o objeto na memória (se necessário)
+                System.out.println("Pedido #" + id + " recusado!");
+                RemoverPedido(p);
+            } else {
+                System.out.println("Falha ao recusar pedido no DB.");
+            }
         }else{
             System.out.println("\n!! Nenhum pedido foi encontrado !!\n");
         }
     }
 
     public void AdicionarProduto(Produto produto){
-        cardapio.add(produto);
-        System.out.println("Item adicionado com sucesso");
-        System.out.println(produto.getId() + "# | " + produto.getNome() + "\n");
+        int newId = produtoD.Create(produto);
 
-        ListarCardapio();
+        if(newId != -1){
+            produto.setId(newId);
+            System.out.println("Item adicionado com sucesso ao DB [ID: " + newId + "]");
+        }else{
+            System.out.println("Falha ao adicionar produto ao DB.");
+        }
     }
 
     public void RemoverProduto(int id){
-        Produto ProdutoRemovido = Busca(id);
-        if(ProdutoRemovido != null){
-            cardapio.remove(ProdutoRemovido);
-            System.out.println("Item removido com sucesso!");
-            System.out.println(id + "# | " + ProdutoRemovido.getNome() + "\n");
+        boolean sucesso = produtoD.Delete(id);
 
-            ListarCardapio();
+        if(sucesso){
+            System.out.println("Item (ID #" + id + ") removido com sucesso do DB!");
         }else{
-            System.out.println("Produto não encontrado");
+            System.out.println("Produto não encontrado ou falha ao remover no DB.");
         }
     }
 
     public Produto Busca(int id){
-        for(Produto p : cardapio){
-            if(p.getId() == id) return p;
-        }
-        return null;
+        return produtoD.SelectId(id);
     }
 
     public void ListarCardapio(){
-        if(cardapio.isEmpty()){
-            System.out.println("\n!! Cardápio indisponível !!");
+        List<Produto> cardapioDB = getCardapio();
+
+        if(cardapioDB.isEmpty()){
+            System.out.println("\n!! Cardapio indisponivel !!");
         }else{
             System.out.println("---------- Menu -----------");
-            for(Produto p : cardapio){
-                System.out.print(p.getId() + "# ");
-                System.out.print(p.getNome());
-                int spaces = 13 - p.getNome().length();
-                System.out.print(" ".repeat(spaces) + " : R$ ");
-                System.out.printf("%.2f\n", p.getPreco());
+            for(Produto p : cardapioDB){
+                // O p.getId() agora é o ID gerado pelo banco.
+                System.out.printf("%d# | %s | R$ %.2f\n", p.getId(), p.getNome(), p.getPreco());
             }
+            System.out.println("---------------------------");
         }
     }
 }
